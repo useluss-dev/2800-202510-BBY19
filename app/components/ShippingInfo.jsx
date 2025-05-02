@@ -7,7 +7,7 @@ import payment from "../assets/icons/payment.svg";
 
 function shippingInfo() {
   return (
-    <section className="grid grid-cols-2 gap-10 items-start text-center">
+    <section className="grid grid-cols-2 gap-10 items-start text-center lg:flex lg:justify-center">
       <div className="flex flex-col items-center">
         <Image src={shipping} alt="Shipping" />
         <h2 className="font-extrabold pt-5 text-xl">Free Shipping & Returns</h2>
