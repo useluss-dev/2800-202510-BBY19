@@ -31,26 +31,32 @@ function SignUp() {
               <input
                 type="text"
                 placeholder="Full Name"
+                required
                 className="px-3 py-4 rounded-lg border border-gray-300"
               />
               <input
                 type="text"
                 placeholder="Email"
+                required
                 className="px-3 py-4 rounded-lg border border-gray-300"
               />
               <input
-                type="text"
+                type="password"
                 placeholder="Password"
+                required
                 className="px-3 py-4 rounded-lg border border-gray-300"
               />
               <input
-                type="text"
+                type="tel"
+                inputMode="numeric"
+                pattern="[\d()+-]{10,15}"
                 placeholder="Phone Number"
+                required
                 className="px-3 py-4 rounded-lg border border-gray-300"
               />
               <button
                 type="submit"
-                className="bg-[#F55266] px-3 py-4 rounded-lg text-lg font-semibold"
+                className="bg-[#F55266] hover:bg-[#f55265c8] px-3 py-4 rounded-lg text-lg font-semibold"
               >
                 Create an account
               </button>
