@@ -22,15 +22,15 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <form onSubmit={handleSubmit} className="bg-gray-800 p-5.5 rounded-4xl shadow w-full max-w-sm space-y-6">
+            <form onSubmit={handleSubmit} className="bg-gray-800 p-5.5 rounded-4xl shadow-2xl w-full max-w-sm space-y-6">
                 <div>
                     <label htmlFor="email" className="block text-sm text-gray-300">
                         Email
                     </label>
                     <input
                         id="email" name="email" type="email" value={formData.email} onChange={handleChange}
-                        className="mt-2 w-full p-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-indigo-800"
-                        placeholder="email@example.com"
+                        className="mt-2 w-full p-2 bg-gray-700 text-white border border-gray-500 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-800"
+                        placeholder="email123@example.com"
                     />
                 </div>
                 <div>
@@ -39,7 +39,7 @@ export default function LoginPage() {
                     </label>
                     <input
                         id="password" name="password" type="password" value={formData.password} onChange={handleChange}
-                        className="mt-2 w-full p-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-indigo-800"
+                        className="mt-2 w-full p-2 bg-gray-700 text-white border border-gray-500 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-800"
                         placeholder="••••••••"
                     />
                 </div>
