@@ -5,7 +5,7 @@ import returnIcon from '../assets/icons/return.svg';
 import support from '../assets/icons/support.svg';
 import payment from '../assets/icons/payment.svg';
 
-function shippingInfo() {
+function ShippingInfo() {
     return (
         <section className="grid grid-cols-2 items-start gap-10 text-center lg:flex lg:justify-center">
             <div className="flex flex-col items-center">
@@ -32,4 +32,4 @@ function shippingInfo() {
     );
 }
 
-export default shippingInfo;
+export default ShippingInfo;

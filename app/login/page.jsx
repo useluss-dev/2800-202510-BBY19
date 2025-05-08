@@ -5,7 +5,7 @@ import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 
-function login() {
+function Login() {
     return (
         <div className="flex h-screen p-4 md:h-full md:pb-44 lg:items-start lg:pb-0">
             <div className="flex w-full flex-col lg:w-1/2">
