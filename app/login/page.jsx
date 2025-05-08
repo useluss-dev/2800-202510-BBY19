@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import singupImage from "../assets/images/signup.svg";
+import loginImage from "../assets/images/login.svg";
 import logo from "../assets/images/ReCompute.png";
 import Link from "next/link";
 import { FaFacebookF, FaGoogle, FaApple } from "react-icons/fa";
@@ -79,7 +79,7 @@ function login() {
       </div>
     </div>
     <div className="hidden lg:block lg:w-1/2">
-      <Image src={singupImage} alt="Sign Up" />
+      <Image src={loginImage} alt="Login" />
     </div>
   </div>
 );
