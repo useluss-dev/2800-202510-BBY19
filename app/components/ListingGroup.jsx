@@ -1,6 +1,5 @@
 import React from 'react';
 import ItemCard from './ItemCard';
-import img from '../../public/scenery.jpg'; // Debug line
 
 // TODO: Replace this array with API call to get cards
 const cards = [
@@ -41,7 +40,7 @@ const cards = [
     },
 ];
 
-function listingGroup() {
+function ListingGroup() {
     return (
         <div className="no-scrollbar flex max-w-full flex-row gap-10 overflow-x-auto px-10">
             {cards.map((item, idx) => (
@@ -51,4 +50,4 @@ function listingGroup() {
     );
 }
 
-export default listingGroup;
+export default ListingGroup;

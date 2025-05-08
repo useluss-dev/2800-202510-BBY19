@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-function itemCard({ image, desc, price }) {
+function ItemCard({ image, desc, price }) {
     return (
         <section className="flex flex-col">
             <div className="relative h-64 w-64 overflow-hidden rounded-3xl">
@@ -13,4 +13,4 @@ function itemCard({ image, desc, price }) {
     );
 }
 
-export default itemCard;
+export default ItemCard;
