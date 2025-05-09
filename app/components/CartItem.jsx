@@ -5,7 +5,7 @@ import { MdOutlineClose } from 'react-icons/md';
 
 function CartItem() {
     return (
-        <div className="mx-6 flex items-center justify-around gap-4 border-b border-gray-500 py-6 lg:w-2/3">
+        <div className="mx-6 flex items-center justify-around gap-4 border-b border-gray-500 py-6 lg:mx-0 lg:w-full">
             <div className="flex w-1/3 items-center gap-4">
                 <div>
                     <Image src="/headphones.png" alt="Product Image" width={100} height={100} />
