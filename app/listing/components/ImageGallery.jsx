@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-const images = ['/gpu.png', '/headphones.png', '/rasp.png'];
-
 function ImageGallery() {
+    const images = ['/gpu.png', '/headphones.png', '/rasp.png'];
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
     return (
         <div className="flex items-start">
+            {/* Thumbnails */}
             <div className="flex w-20 flex-col space-y-2">
                 {images.map((img, idx) => (
                     <Image
@@ -23,6 +23,7 @@ function ImageGallery() {
                 ))}
             </div>
 
+            {/* Full image */}
             <div className="relative h-[500px] w-full rounded-md">
                 <Image src={selectedImage} fill className="rounded-md object-contain" alt="Main" />
             </div>
