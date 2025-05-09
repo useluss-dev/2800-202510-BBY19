@@ -7,11 +7,11 @@ function ListingPage() {
     return (
         <div>
             <Header />
-            <div className="flex space-x-6 p-4">
-                <div className="w-1/2">
+            <div className="flex flex-col space-y-6 p-4 lg:flex-row lg:space-y-0 lg:space-x-6">
+                <div className="w-full lg:w-1/2">
                     <ImageGallery />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                     <ListingDetails />
                 </div>
             </div>
