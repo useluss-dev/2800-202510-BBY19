@@ -7,9 +7,9 @@ function ImageGallery() {
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
     return (
-        <div className="flex items-start">
+        <div className="flex flex-col-reverse items-start gap-4 lg:flex-row">
             {/* Thumbnails */}
-            <div className="flex w-20 flex-col space-y-2">
+            <div className="flex flex-row gap-2 lg:w-20 lg:flex-col">
                 {images.map((img, idx) => (
                     <Image
                         key={idx}
