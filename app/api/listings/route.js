@@ -5,7 +5,7 @@ export async function GET() {
         // await for client to connect
         const client = await clientPromise;
         // select the database "recompute"
-        const db = client.db('recompute');
+        const db = client.db(process.env.MONGODB_NAME);
         // select the conllection "listings", find all documents and convert to array
         const listings = await db.collection(process.env.MONGODB_COLLECTIONL).find({}).toArray();
 
