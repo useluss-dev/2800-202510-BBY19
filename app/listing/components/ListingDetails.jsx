@@ -14,11 +14,11 @@ function ListingDetails() {
                         name<span className="text-gray-500">(num reviews)</span>
                     </div>
                     <div className="space-x-2 text-sm text-white">
-                        <Link href="#" className="underline hover:text-pink-500">
+                        <Link href="#" className="underline hover:text-[#F55266]">
                             <span className="font-bold">%</span> of positive ratings
                         </Link>
                         <span>·</span>
-                        <Link href="#" className="underline hover:text-pink-500">
+                        <Link href="#" className="underline hover:text-[#F55266]">
                             Seller&apos;s page
                         </Link>
                     </div>
