@@ -10,8 +10,8 @@ function ItemCard({ image, name, price, rating, reviews }) {
 
     return (
         <section className="flex flex-col">
-            <div className="relative h-64 w-64 overflow-hidden rounded-3xl">
-                <Image src={image} alt="image" fill className="object-cover" />
+            <div className="relative h-64 w-full overflow-hidden rounded-3xl">
+                <Image src={image} alt="image" fill className="" />
             </div>
 
             <div className="flex items-center gap-1 pt-2 pl-2">
@@ -26,7 +26,7 @@ function ItemCard({ image, name, price, rating, reviews }) {
             </div>
 
             <p className="pl-2">{name}</p>
-            <div className="flex items-center justify-between pl-2">
+            <div className="flex items-center justify-between px-2">
                 <p className="font-bold">${price}</p>
                 <div className="rounded border border-[#232933] bg-[#232933] p-1.5">
                     <FaShoppingCart />
