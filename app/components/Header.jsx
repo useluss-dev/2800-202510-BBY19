@@ -25,7 +25,7 @@ export default function Header() {
             <div>
                 <div className="mx-auto flex max-w-7xl items-center justify-center px-4 text-sm sm:px-6 lg:px-8">
                     <div className="pt-2">
-                        USE CODE <span className="text-pink-500">RECOMPUTE20</span> FOR 20% OFF
+                        USE CODE <span className="text-[#F55266]">RECOMPUTE20</span> FOR 20% OFF
                     </div>
                 </div>
             </div>
@@ -63,13 +63,13 @@ export default function Header() {
                 </div>
                 {/* navigation icons */}
                 <div className="flex items-center space-x-2">
-                    <button className="rounded-full p-1 invert hover:bg-[#049b49]">
+                    <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
                         <Image src={wishlist} width={24} height={24} alt="Wishlist" />
                     </button>
-                    <button className="rounded-full p-1 invert hover:bg-[#049b49]">
+                    <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
                         <Image src={user} width={24} height={24} alt="Profile" />
                     </button>
-                    <button className="relative rounded-full p-1 invert hover:bg-[#049b49]">
+                    <button className="relative rounded-full p-1 invert hover:bg-[#0AAD99]">
                         <Image src={cart} width={24} height={24} alt="Cart" />
                         <span className="absolute -top-1 -right-1 rounded-full bg-red-500 px-1 text-xs text-white invert">
                             10
