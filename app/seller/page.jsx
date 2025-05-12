@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import Header from '../components/Header';
 
 const products = [
     {
@@ -29,7 +28,6 @@ const products = [
 function SellerPage() {
     return (
         <div>
-            <Header />
             <div className="mx-auto max-w-screen-xl px-4 py-6">
                 {/* Header */}
                 <div className="mb-6 flex flex-col justify-between gap-4 border-b pb-4 sm:flex-row sm:items-center">
