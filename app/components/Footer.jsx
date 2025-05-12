@@ -1,8 +1,6 @@
 import Logo from '../assets/images/ReCompute.png';
 import Image from 'next/image';
-import DropDown from './CategoryDropdown';
-import { RiVisaLine, RiPaypalFill, RiMastercardFill } from 'react-icons/ri';
-import { FaGooglePay, FaApplePay } from 'react-icons/fa';
+import Link from 'next/link';
 
 async function getGeoData() {
     const res = await fetch('http://ip-api.com/json/', {
@@ -15,29 +13,31 @@ export default async function Footer() {
     const geo = await getGeoData();
 
     return (
-        <div className="fixed bottom-0 flex flex-col">
-            <div className="flex items-center text-[#F55266]">
-                <Image src={Logo} alt="Logo" className="flex w-1/6 justify-center lg:w-1/12" />
+        <div className="flex flex-col px-4">
+            <div className="flex items-center text-xl font-bold">
+                <Image src={Logo} width={75} height={75} alt="Logo" />
                 ReCompute
             </div>
-            <div className="w-screen">
-                <div className="flex">
-                    <DropDown />{' '}
-                </div>
-                <a className="flex w-3 p-4 lg:hover:text-gray-400" href="/profile">
-                    Profile
-                </a>
+            <div className="">
+                <Link className="flex w-3 p-4 lg:hover:text-gray-400" href="/profile">
+                    <h3 className="text-lg font-semibold">Profile</h3>
+                </Link>
                 {geo?.city && (
-                    <p className="px-4 text-sm text-gray-300">
+                    <p className="px-4 pb-4 text-lg font-semibold text-gray-300">
                         You&apos;re browsing from {geo.city}, {geo.country}
                     </p>
                 )}
-                <div className="flex flex-row justify-center gap-4 border-t-2 border-gray-700 p-4 md:justify-start">
-                    <RiVisaLine className="h-7 w-7" />
-                    <RiPaypalFill className="h-7 w-7" />
-                    <RiMastercardFill className="h-7 w-7" />
-                    <FaGooglePay className="h-9 w-9" />
-                    <FaApplePay className="h-9 w-9" />
+                <div className="flex flex-row justify-center gap-6 border-t-2 border-gray-700 p-4 md:justify-center">
+                    <Image src="/visa.png" width={50} height={50} alt="Visa" />
+                    <Image src="/mastercard.png" width={50} height={50} alt="Mastercard" />
+                    <Image src="/gPay.png" width={50} height={50} alt="Google Pay" />
+                    <Image
+                        src="/aPay.png"
+                        width={50}
+                        height={50}
+                        alt="Apple Pay"
+                        className="invert"
+                    />
                 </div>
             </div>
         </div>
