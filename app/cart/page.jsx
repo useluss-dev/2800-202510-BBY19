@@ -1,13 +1,10 @@
 import React from 'react';
-import Header from '../components/Header';
 import CartItem from '../components/CartItem';
 import OrderSummary from '../components/OrderSummary';
 
 function cart() {
     return (
         <div>
-            <Header />
-
             <div className="p-6">
                 <p className="pb-4 text-sm text-gray-400">placeholder</p>
                 <h1 className="mb-4 text-2xl font-bold">Shopping cart</h1>
