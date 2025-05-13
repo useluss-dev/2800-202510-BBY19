@@ -1,16 +1,31 @@
+'use client';
 import Logo from '../assets/images/ReCompute.png';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-async function getGeoData() {
-    const res = await fetch('http://ip-api.com/json/', {
-        cache: 'no-store', // Ensures it's fetched on every request
-    });
-    return res.json();
-}
+export default function Footer() {
+    const [geo, setGeo] = useState(null);
 
-export default async function Footer() {
-    const geo = await getGeoData();
+    useEffect(() => {
+        // Check if it's already stored in sessionStorage
+        const cached = sessionStorage.getItem('geo');
+        if (cached) {
+            setGeo(JSON.parse(cached));
+            return;
+        }
+
+        // Fetch once and cache
+        fetch('http://ip-api.com/json/')
+            .then((res) => res.json())
+            .then((data) => {
+                setGeo(data);
+                sessionStorage.setItem('geo', JSON.stringify(data));
+            })
+            .catch((err) => {
+                console.error('Failed to fetch geo data:', err);
+            });
+    }, []);
 
     return (
         <div className="flex flex-col px-4">
