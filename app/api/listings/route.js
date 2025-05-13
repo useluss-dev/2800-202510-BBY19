@@ -15,7 +15,7 @@ export async function GET() {
             headers: { 'Content-Type': 'application/json' },
         });
         // catch method for any errors and send back a 500 code
-    } catch (error) {
+    } catch {
         return new Response(JSON.stringify({ error: 'Failed to fetch listings' }), {
             status: 500,
         });
