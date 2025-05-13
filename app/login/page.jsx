@@ -5,33 +5,7 @@ import loginImage from '../assets/images/login.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
-
 function login() {
-
-    /* Added from here to */
-
-    const [formData, setFormData] = React.useState({
-        email: '',
-        password: '',
-    });
-    const [errors, setErrors] = React.useState({});
-    const [isloading, setIsLoading] = React.useState(false);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setErrors({});
-
-        //redirect routing here perhaps
-    };
-
-    /* To here */
-
     return (
         <div className="flex h-screen p-4 md:h-full md:pb-44 lg:items-start lg:pb-0">
             <div className="flex w-full flex-col lg:w-1/2">
@@ -50,24 +24,18 @@ function login() {
                                 <span className="underline underline-offset-2">Sign up</span>
                             </Link>{' '}
                         </p>
-                        <form onSubmit={handleSubmit} /*added*/ action="POST" className="flex flex-col space-y-4 lg:space-y-3">
+                        <form action="POST" className="flex flex-col space-y-4 lg:space-y-3">
                             <input
                                 type="text"
                                 placeholder="Email"
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
-                                value={formData.email} //added
-                                onChange={handleChange} //added
-                                name="email" //added
                             />
                             <input
                                 type="password"
                                 placeholder="Password"
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
-                                value={formData.password} //added
-                                onChange={handleChange} //added
-                                name="password" //added
                             />
                             <button
                                 type="submit"
@@ -114,4 +82,4 @@ function login() {
     );
 }
 
-export default login;
+export default Login;
