@@ -98,9 +98,8 @@ export default function Header() {
 
             {/* mobile silder */}
             <div
-                className={`fixed top-0 left-0 z-50 h-full w-1/2 transform bg-[#2A3240] transition-transform duration-300 ease-in-out ${
-                    menuOpen ? 'translate-x-0' : '-translate-x-full'
-                }`}
+                className={`fixed top-0 left-0 z-50 h-full w-1/2 transform bg-[#2A3240] transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : '-translate-x-full'
+                    }`}
             >
                 {/* header inside slider */}
                 <div className="flex items-center justify-between border-b border-gray-600 px-4 py-3">
