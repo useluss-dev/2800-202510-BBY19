@@ -1,10 +1,10 @@
-'use client';
 import React from 'react';
 import Image from 'next/image';
 import loginImage from '../assets/images/login.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
+
 function login() {
     return (
         <div className="flex h-screen p-4 md:h-full md:pb-44 lg:items-start lg:pb-0">
