@@ -1,0 +1,123 @@
+'use client';
+import { React, useState, useEffect } from 'react';
+import ItemCard from '../components/ItemCard';
+import SidebarFilter from '../components/SidebarFilter';
+import { IoMdArrowDropdown } from 'react-icons/io';
+
+
+function page() {
+    //state variables to manage the state of listings, filtering, sorting, and categories from API
+    const [listings, setListings] = useState([]);
+    const [filteredListings, setFilteredListings] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [sortBy, setSortBy] = useState('popular');
+    const [showMobileFilter, setShowMobileFilter] = useState(false);
+    const [filters, setFilters] = useState({
+        category: [],
+        priceRange: [0, 2000],
+    });
+
+    //hook to fetch listings and categories from API and set them in state
+    useEffect(() => {
+        const fetchListings = async () => {
+            const res = await fetch('/api/listings');
+            const data = await res.json();
+            setListings(data);
+
+            const categoryCounts = {};
+            data.forEach((item) => {
+                categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
+            });
+
+            const formatted = Object.entries(categoryCounts).map(([name, count]) => ({
+                name,
+                count,
+            }));
+            setCategories(formatted);
+        };
+        fetchListings();
+    }, []);
+
+    //hook to filter and sort listings based on selection on frontend and set in state
+    useEffect(() => {
+        let result = [...listings];
+
+        //this is to filter listings based on category
+        if (filters.category.length) {
+            result = result.filter((item) => filters.category.includes(item.category));
+        }
+
+        //this is to filter listings based on price
+        result = result.filter(
+            (item) => item.price >= filters.priceRange[0] && item.price <= filters.priceRange[1],
+        );
+
+        //sort listings based on rating or price
+        result.sort((a, b) => {
+            if (sortBy === 'price-asc') return a.price - b.price;
+            if (sortBy === 'price-desc') return b.price - a.price;
+            if (sortBy === 'rating') {
+                const ratingA = parseFloat(a.rating || '0');
+                const ratingB = parseFloat(b.rating || '0');
+                return ratingB - ratingA;
+            }
+            return 0;
+        });
+
+        setFilteredListings(result);
+    }, [listings, filters, sortBy]);
+
+    return (
+        <div className="flex min-h-screen flex-col gap-6 p-6 lg:flex-row">
+            {/*filter toggler for mobile viewport*/}
+            <div className="mb-4 flex w-full items-center justify-between lg:hidden">
+                <h2 className="text-xl font-bold">Found {filteredListings.length} items</h2>
+                <button
+                    onClick={() => setShowMobileFilter(!showMobileFilter)}
+                    className="rounded bg-gray-700 px-4 py-2"
+                >
+                    Filters
+                </button>
+            </div>
+
+            <SidebarFilter
+                categories={categories}
+                filters={filters}
+                setFilters={setFilters}
+                showMobileFilter={showMobileFilter}
+                setShowMobileFilter={setShowMobileFilter}
+            />
+
+            <main className="flex-1">
+                {/*sorting*/}
+                <div className="mb-4 hidden items-center justify-between lg:flex">
+                    <h2 className="text-xl font-bold">Found {filteredListings.length} items</h2>
+                    <div className="relative w-48">
+                        <select
+                            className="w-full appearance-none rounded-lg bg-gray-800 p-2 pr-10 text-white"
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                        >
+                            <option value="popular">Most Popular</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-sm text-white">
+                            <IoMdArrowDropdown />
+                        </div>
+                    </div>
+                </div>
+
+                {/*mapping through the listings & ItemCard*/}
+                <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+                    {filteredListings.map((item) => (
+                        <ItemCard key={item.id || item._id} {...item} />
+                    ))}
+                </div>
+            </main>
+        </div>
+    );
+}
+
+export default page;
