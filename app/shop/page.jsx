@@ -4,8 +4,7 @@ import ItemCard from '../components/ItemCard';
 import SidebarFilter from '../components/SidebarFilter';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
-
-function page() {
+function Page() {
     //state variables to manage the state of listings, filtering, sorting, and categories from API
     const [listings, setListings] = useState([]);
     const [filteredListings, setFilteredListings] = useState([]);
@@ -120,4 +119,4 @@ function page() {
     );
 }
 
-export default page;
+export default Page;

@@ -1,6 +1,6 @@
 'use client';
 import Logo from '../assets/images/ReCompute.png';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
