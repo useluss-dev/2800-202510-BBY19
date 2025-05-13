@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import PropTypes from 'prop-types';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
 
 function ItemCard({ image, name, price, rating, reviews }) {
@@ -35,5 +36,13 @@ function ItemCard({ image, name, price, rating, reviews }) {
         </section>
     );
 }
+
+ItemCard.propTypes = {
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    reviews: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 
 export default ItemCard;

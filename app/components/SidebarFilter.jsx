@@ -1,3 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 export default function SidebarFilter({
     categories,
     filters,
@@ -24,7 +27,6 @@ export default function SidebarFilter({
                             className="accent-[#F55266]"
                             type="checkbox"
                             checked={filters.category.includes(name)}
-                            
                             //if category is selected remove it, otherwise add it
                             onChange={() =>
                                 setFilters((prev) => ({
@@ -66,3 +68,24 @@ export default function SidebarFilter({
         </aside>
     );
 }
+
+SidebarFilter.propTypes = {
+    categories: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            count: PropTypes.number.isRequired,
+        }),
+    ),
+
+    filters: PropTypes.arrayOf(
+        PropTypes.shape({
+            category: PropTypes.arrayOf(PropTypes.string),
+            priceRange: PropTypes.arrayOf(PropTypes.number),
+            includes: PropTypes.func,
+        }),
+    ),
+
+    setFilters: PropTypes.func,
+    setShowMobileFilter: PropTypes.func,
+    showMobileFilter: PropTypes.bool,
+};
