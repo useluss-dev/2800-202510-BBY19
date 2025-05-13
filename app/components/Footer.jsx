@@ -16,7 +16,7 @@ export default function Footer() {
         }
 
         // Fetch once and cache
-        fetch('https://ip-api.com/json/')
+        fetch('https://ipapi.co/json/')
             .then((res) => res.json())
             .then((data) => {
                 console.log('Geo data:', data);
