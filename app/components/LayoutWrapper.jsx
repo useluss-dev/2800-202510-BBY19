@@ -11,7 +11,7 @@ export default function LayoutWrapper({ children }) {
         <>
             {!isAuthPage && <Header />}
             <main>{children}</main>
-            {/* {!isAuthPage && <Footer />} */}
+            {!isAuthPage && <Footer />}
         </>
     );
 }
