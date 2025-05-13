@@ -19,6 +19,7 @@ export default function Footer() {
         fetch('https://ip-api.com/json/')
             .then((res) => res.json())
             .then((data) => {
+                console.log('Geo data:', data);
                 setGeo(data);
                 sessionStorage.setItem('geo', JSON.stringify(data));
             })
