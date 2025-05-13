@@ -30,7 +30,7 @@ export default function Hero() {
     useEffect(() => {
         intervalRef.current = setInterval(goToNext, 5000);
         return () => clearInterval(intervalRef.current);
-    }, []);
+    });
 
     return (
         <div className="w-full rounded-2xl bg-[#1B273A] py-10 shadow-lg">
