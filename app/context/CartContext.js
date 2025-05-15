@@ -41,7 +41,7 @@ export function CartProvider({ children }) {
                     item.id === prod.id ? { ...item, quantity: item.quantity + 1 } : item,
                 );
             }
-            return [...pre, { ...prod, quantity: 4 }];
+            return [...pre, { ...prod, quantity: 1 }];
         });
     };
 
