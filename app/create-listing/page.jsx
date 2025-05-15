@@ -6,6 +6,7 @@ function CreateListing() {
         title: '',
         price: '',
         condition: '',
+        category: '',
         description: '',
         images: [],
     });
@@ -58,6 +59,33 @@ function CreateListing() {
 
                 {/* Condition */}
                 <div>
+                    <label className="mb-1 block text-sm font-medium">Category</label>
+                    <select
+                        name="category"
+                        className="w-full rounded border px-4 py-2"
+                        value={form.category}
+                        onChange={handleChange}
+                    >
+                        <option value="Smartphones">Smartphones</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Tablets">Tablets</option>
+                        <option value="Wearable Electronics">Wearable Electronics</option>
+                        <option value="Computers & Laptops">Computers & Laptops</option>
+                        <option value="Cameras, Photo & Video">Cameras, Photo & Video</option>
+                        <option value="Headphones">Headphones</option>
+                        <option value="Motherboard">Motherboard</option>
+                        <option value="Graphics Card">Graphics Card</option>
+                        <option value="Monitor">Monitor</option>
+                        <option value="Single Board Computer">Single Board Computer</option>
+                        <option value="Mouse">Mouse</option>
+                        <option value="Streaming">Streaming</option>
+                        <option value="Memory">Memory</option>
+                        <option value="Power">Power</option>
+                    </select>
+                </div>
+
+                {/* Condition */}
+                <div>
                     <label className="mb-1 block text-sm font-medium">Condition</label>
                     <select
                         name="condition"
@@ -91,7 +119,7 @@ function CreateListing() {
                         type="file"
                         multiple
                         accept="image/*"
-                        className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-pink-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-pink-600"
+                        className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-[#F55266] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#f55265c8]"
                         onChange={handleImageUpload}
                         required
                     />
@@ -100,7 +128,7 @@ function CreateListing() {
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="w-full rounded-full bg-pink-500 py-3 font-semibold text-white transition hover:bg-pink-600"
+                    className="w-full rounded-full bg-[#F55266] py-3 font-semibold text-white transition hover:bg-[#f55265c8]"
                 >
                     Create Listing
                 </button>
