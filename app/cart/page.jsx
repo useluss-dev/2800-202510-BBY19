@@ -1,8 +1,12 @@
+'use client';
 import React from 'react';
 import CartItem from '../components/CartItem';
 import OrderSummary from '../components/OrderSummary';
+import { useCart } from '../context/CartContext';
 
 function cart() {
+    const { cartItems } = useCart();
+
     return (
         <div>
             <div className="p-6">
@@ -23,8 +27,9 @@ function cart() {
                         </div>
 
                         {/* Cart Items */}
-                        <CartItem />
-                        <CartItem />
+                        {cartItems.map((item) => (
+                            <CartItem key={item.id} item={item} />
+                        ))}
                     </div>
 
                     {/* Order Summary */}
