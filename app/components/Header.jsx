@@ -13,10 +13,10 @@ import { useCart } from '../context/CartContext';
 
 export default function Header() {
     const navItems = [
-        { name: 'Placeholder', link: '/' },
-        { name: 'Placeholder', link: '/' },
-        { name: 'Placeholder', link: '/' },
-        { name: 'Placeholder', link: '/' },
+        { name: 'Home', link: '/' },
+        { name: 'Shop', link: '/shop' },
+        { name: 'Contact Us', link: '/contact' },
+        { name: 'Create Listing', link: '/create-listing' },
     ];
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -67,12 +67,16 @@ export default function Header() {
                 </div>
                 {/* navigation icons */}
                 <div className="flex items-center space-x-2">
-                    <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
-                        <Image src={wishlist} width={24} height={24} alt="Wishlist" />
-                    </button>
-                    <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
-                        <Image src={user} width={24} height={24} alt="Profile" />
-                    </button>
+                    <Link href="/wishlist">
+                        <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
+                            <Image src={wishlist} width={24} height={24} alt="Wishlist" />
+                        </button>
+                    </Link>
+                    <Link href="/profile">
+                        <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
+                            <Image src={user} width={24} height={24} alt="Profile" />
+                        </button>
+                    </Link>
                     <Link href="/cart">
                         <button className="relative rounded-full p-1 invert hover:bg-[#0AAD99]">
                             <Image src={cart} width={24} height={24} alt="Cart" />
