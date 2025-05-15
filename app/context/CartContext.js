@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 //used createContext hook to create a context for the cart
 //useContext hook to access context in other components
@@ -9,9 +9,44 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
     const [cartItems, setCartItems] = useState([]);
 
-    return (
-        <CartContext.Provider value={{ cartItems, setCartItems }}>{children}</CartContext.Provider>
-    );
+    //load the cart from local storage once page mounted
+    useEffect(() => {
+        const stored = localStorage.getItem('cart');
+        if (stored) {
+            setCartItems(JSON.parse(stored));
+        }
+    }, []);
+
+    //save the cart to local storage
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    }, [cartItems]);
+
+    //addToCart function to add items to cart
+    const addToCart = (prod) => {
+        //check if there is a product
+        if (!prod || typeof prod !== 'object' || !prod.id) {
+            console.error('addToCart received invalid product:', prod);
+            return;
+        }
+
+        setCartItems((pre) => {
+            //checs if the product is already in cart
+            const existing = pre.find((item) => item.id === prod.id);
+
+            //if the product exists, map though the cart then increase its quantity by 1 & leave other products as they are
+            //if not then add the product to the cart with quantity = 1
+            if (existing) {
+                return pre.map((item) =>
+                    item.id === prod.id ? { ...item, quantity: item.quantity + 1 } : item,
+                );
+            }
+            return [...pre, { ...prod, quantity: 4 }];
+        });
+    };
+
+    //CartContext.Provider used to pass in the cart items and addToCart function to child elemeents
+    return <CartContext.Provider value={{ cartItems, addToCart }}>{children}</CartContext.Provider>;
 }
 
 export function useCart() {
