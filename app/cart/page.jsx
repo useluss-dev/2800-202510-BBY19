@@ -40,7 +40,7 @@ function cart() {
                 {/* Header Row */}
                 <div className="flex flex-col justify-between px-6 lg:flex-row">
                     <div className="lg:w-2/3">
-                        <div className="flex justify-around gap-4 border-b border-gray-500 py-8 pb-2 font-semibold text-white">
+                        <div className="flex justify-around gap-4 py-8 pb-2 font-semibold text-white">
                             <div className="w-1/2 pl-6">
                                 <p>Product</p>
                             </div>
