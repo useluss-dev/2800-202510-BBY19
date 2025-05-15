@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
 
 function CreateListing() {
     const [form, setForm] = useState({
@@ -16,9 +17,32 @@ function CreateListing() {
         setForm((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleImageUpload = (e) => {
+    //this function uploads the img then converts it to base64 and sets it to the form
+    const handleImageUpload = async (e) => {
         const files = Array.from(e.target.files);
-        setForm((prev) => ({ ...prev, images: files }));
+        const base64Promises = files.map((file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+            });
+        });
+
+        const base64Images = await Promise.all(base64Promises);
+
+        setForm((prev) => ({
+            ...prev,
+            images: [...prev.images, ...base64Images],
+        }));
+    };
+
+    //this function handles the delete of an image
+    const handleDeleteImage = (index) => {
+        setForm((prev) => ({
+            ...prev,
+            images: prev.images.filter((_, i) => i !== index),
+        }));
     };
 
     const handleSubmit = (e) => {
@@ -27,112 +51,140 @@ function CreateListing() {
     };
 
     return (
-        <div className="mx-auto max-w-3xl p-8">
-            <h1 className="mb-6 text-3xl font-bold">Create New Listing</h1>
+        <div className="mx-auto  p-8">
+            <h1 className="mb-6 text-3xl font-bold lg:mb-12">Create New Listing</h1>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Title */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">Title</label>
-                    <input
-                        type="text"
-                        name="title"
-                        className="w-full rounded border px-4 py-2"
-                        value={form.title}
-                        onChange={handleChange}
-                        required
-                    />
+            <div className='md:flex md:justify-center'>
+                <div className="rounded-lg bg-[#232933] p-12 shadow-md md:w-2/3 lg:w-1/2">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Title */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Title:</label>
+                            <input
+                                type="text"
+                                name="title"
+                                className="w-full rounded border px-4 py-2"
+                                value={form.title}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        {/* Price */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Price (CAD):</label>
+                            <input
+                                type="number"
+                                name="price"
+                                className="w-full rounded border px-4 py-2"
+                                value={form.price}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        {/* Condition */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Category:</label>
+                            <select
+                                name="category"
+                                className="w-full rounded border px-4 py-2"
+                                value={form.category}
+                                onChange={handleChange}
+                            >
+                                <option value="Smartphones">Smartphones</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Tablets">Tablets</option>
+                                <option value="Wearable Electronics">Wearable Electronics</option>
+                                <option value="Computers & Laptops">Computers & Laptops</option>
+                                <option value="Cameras, Photo & Video">
+                                    Cameras, Photo & Video
+                                </option>
+                                <option value="Headphones">Headphones</option>
+                                <option value="Motherboard">Motherboard</option>
+                                <option value="Graphics Card">Graphics Card</option>
+                                <option value="Monitor">Monitor</option>
+                                <option value="Single Board Computer">Single Board Computer</option>
+                                <option value="Mouse">Mouse</option>
+                                <option value="Streaming">Streaming</option>
+                                <option value="Memory">Memory</option>
+                                <option value="Power">Power</option>
+                            </select>
+                        </div>
+
+                        {/* Condition */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Condition:</label>
+                            <select
+                                name="condition"
+                                className="w-full rounded border px-4 py-2"
+                                value={form.condition}
+                                onChange={handleChange}
+                            >
+                                <option value="new">New</option>
+                                <option value="used">Used</option>
+                                <option value="parts">For parts or not working</option>
+                            </select>
+                        </div>
+
+                        {/* Description */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Description:</label>
+                            <textarea
+                                name="description"
+                                rows="5"
+                                className="w-full rounded border px-4 py-2"
+                                value={form.description}
+                                onChange={handleChange}
+                                required
+                            ></textarea>
+                        </div>
+
+                        {/* Image Upload */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Upload Images:</label>
+                            <input
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-[#F55266] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#f55265c8]"
+                                onChange={handleImageUpload}
+                                required
+                            />
+                        </div>
+
+                        {/* Image Previews */}
+                        {form.images.length > 0 && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {form.images.map((img, index) => (
+                                    <div key={index} className="relative rounded border p-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDeleteImage(index)}
+                                            className="bg-opacity-60 hover:bg-opacity-90 absolute top-2 left-2 rounded-full bg-[#F55266] px-[2px] py-[2px] hover:cursor-pointer hover:bg-[#f55265c8]"
+                                        >
+                                            <IoMdClose />
+                                        </button>
+                                        <img
+                                            src={img}
+                                            alt={`Preview ${index}`}
+                                            className="h-32 w-full object-contain"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Submit */}
+                        <button
+                            type="submit"
+                            className="w-full rounded-full bg-[#F55266] py-3 text-xl font-bold hover:bg-[#f55265c8]"
+                        >
+                            Create Listing
+                        </button>
+                    </form>
                 </div>
-
-                {/* Price */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">Price (CAD)</label>
-                    <input
-                        type="number"
-                        name="price"
-                        className="w-full rounded border px-4 py-2"
-                        value={form.price}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                {/* Condition */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">Category</label>
-                    <select
-                        name="category"
-                        className="w-full rounded border px-4 py-2"
-                        value={form.category}
-                        onChange={handleChange}
-                    >
-                        <option value="Smartphones">Smartphones</option>
-                        <option value="Accessories">Accessories</option>
-                        <option value="Tablets">Tablets</option>
-                        <option value="Wearable Electronics">Wearable Electronics</option>
-                        <option value="Computers & Laptops">Computers & Laptops</option>
-                        <option value="Cameras, Photo & Video">Cameras, Photo & Video</option>
-                        <option value="Headphones">Headphones</option>
-                        <option value="Motherboard">Motherboard</option>
-                        <option value="Graphics Card">Graphics Card</option>
-                        <option value="Monitor">Monitor</option>
-                        <option value="Single Board Computer">Single Board Computer</option>
-                        <option value="Mouse">Mouse</option>
-                        <option value="Streaming">Streaming</option>
-                        <option value="Memory">Memory</option>
-                        <option value="Power">Power</option>
-                    </select>
-                </div>
-
-                {/* Condition */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">Condition</label>
-                    <select
-                        name="condition"
-                        className="w-full rounded border px-4 py-2"
-                        value={form.condition}
-                        onChange={handleChange}
-                    >
-                        <option value="new">New</option>
-                        <option value="used">Used</option>
-                        <option value="parts">For parts or not working</option>
-                    </select>
-                </div>
-
-                {/* Description */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">Description</label>
-                    <textarea
-                        name="description"
-                        rows="5"
-                        className="w-full rounded border px-4 py-2"
-                        value={form.description}
-                        onChange={handleChange}
-                        required
-                    ></textarea>
-                </div>
-
-                {/* Image Upload */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">Upload Images</label>
-                    <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-[#F55266] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#f55265c8]"
-                        onChange={handleImageUpload}
-                        required
-                    />
-                </div>
-
-                {/* Submit */}
-                <button
-                    type="submit"
-                    className="w-full rounded-full bg-[#F55266] py-3 font-semibold text-white transition hover:bg-[#f55265c8]"
-                >
-                    Create Listing
-                </button>
-            </form>
+            </div>
         </div>
     );
 }
