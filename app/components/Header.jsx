@@ -9,6 +9,7 @@ import cart from '../assets/icons/cart-shopping-svgrepo-com.svg';
 import ReComputeLogo from '../assets/images/ReCompute.png';
 import CategoryDropdown from './CategoryDropdown';
 import { CiSearch } from 'react-icons/ci';
+import { useCart } from '../context/CartContext';
 
 export default function Header() {
     const navItems = [
@@ -19,6 +20,9 @@ export default function Header() {
     ];
 
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const { cartItems } = useCart();
+    const cartLength = cartItems.length;
 
     return (
         <header className="relative z-50 bg-[#232933] text-white">
@@ -69,12 +73,14 @@ export default function Header() {
                     <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
                         <Image src={user} width={24} height={24} alt="Profile" />
                     </button>
-                    <button className="relative rounded-full p-1 invert hover:bg-[#0AAD99]">
-                        <Image src={cart} width={24} height={24} alt="Cart" />
-                        <span className="absolute -top-1 -right-1 rounded-full bg-red-500 px-1 text-xs text-white invert">
-                            10
-                        </span>
-                    </button>
+                    <Link href="/cart">
+                        <button className="relative rounded-full p-1 invert hover:bg-[#0AAD99]">
+                            <Image src={cart} width={24} height={24} alt="Cart" />
+                            <span className="absolute -top-1 -right-1 rounded-full bg-red-500 px-1 text-xs text-white invert">
+                                {cartLength}
+                            </span>
+                        </button>
+                    </Link>
                 </div>
             </div>
 
@@ -98,8 +104,9 @@ export default function Header() {
 
             {/* mobile silder */}
             <div
-                className={`fixed top-0 left-0 z-50 h-full w-1/2 transform bg-[#2A3240] transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : '-translate-x-full'
-                    }`}
+                className={`fixed top-0 left-0 z-50 h-full w-1/2 transform bg-[#2A3240] transition-transform duration-300 ease-in-out ${
+                    menuOpen ? 'translate-x-0' : '-translate-x-full'
+                }`}
             >
                 {/* header inside slider */}
                 <div className="flex items-center justify-between border-b border-gray-600 px-4 py-3">
