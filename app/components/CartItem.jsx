@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { GoPlus, GoDash } from 'react-icons/go';
 import { MdOutlineClose } from 'react-icons/md';
 
-function CartItem({ item }) {
+function CartItem({ item, quanAdd, quanMinus }) {
     return (
         <div className="mx-6 flex items-center justify-around gap-4 border-b border-gray-500 py-6 lg:mx-0 lg:w-full">
             <div className="flex w-1/3 items-center gap-4">
@@ -23,14 +23,14 @@ function CartItem({ item }) {
                     </p>
                 </div>
             </div>
-            
+
             <div className="flex w-1/3 items-center justify-around gap-7">
                 <div className="flex items-center gap-3 rounded-xl border border-gray-300 px-4 py-2">
-                    <button>
+                    <button onClick={() => quanMinus(item.id)}>
                         <GoDash />
                     </button>
                     <span>{item.quantity}</span>
-                    <button>
+                    <button onClick={() => quanAdd(item)}>
                         <GoPlus />
                     </button>
                 </div>
