@@ -45,8 +45,23 @@ export function CartProvider({ children }) {
         });
     };
 
+    //update quantity function to update the quantity of item in the cart
+    const updateQuantity = (id, newQuantity) => {
+        //check if quantity is less than 1 and return to prevent 0 or negative
+        if (newQuantity < 1) return;
+        //setCartItems map through the cart and update the quantity of item with the given id and leave other items as they are
+        setCartItems((prev) =>
+            prev.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item)),
+        );
+    };
+
+
     //CartContext.Provider used to pass in the cart items and addToCart function to child elemeents
-    return <CartContext.Provider value={{ cartItems, addToCart }}>{children}</CartContext.Provider>;
+    return (
+        <CartContext.Provider value={{ cartItems, addToCart, updateQuantity }}>
+            {children}
+        </CartContext.Provider>
+    );
 }
 
 export function useCart() {
