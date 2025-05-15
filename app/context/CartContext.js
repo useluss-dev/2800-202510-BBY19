@@ -60,9 +60,17 @@ export function CartProvider({ children }) {
         setCartItems((prev) => prev.filter((item) => item.id !== id));
     };
 
+    //clears/removes all items in the cart and removes the cart from localStorage
+    const clearCart = () => {
+        setCartItems([]);
+        localStorage.removeItem('cart');
+    };
+
     //CartContext.Provider used to pass in the cart items and addToCart function to child elemeents
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart }}>
+        <CartContext.Provider
+            value={{ cartItems, addToCart, updateQuantity, removeFromCart, clearCart }}
+        >
             {children}
         </CartContext.Provider>
     );
