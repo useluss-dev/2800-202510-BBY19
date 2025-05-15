@@ -55,10 +55,14 @@ export function CartProvider({ children }) {
         );
     };
 
+    const removeFromCart = (id) => {
+        //setCartItems filter through the cart and remove the item with the given id
+        setCartItems((prev) => prev.filter((item) => item.id !== id));
+    };
 
     //CartContext.Provider used to pass in the cart items and addToCart function to child elemeents
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, updateQuantity }}>
+        <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart }}>
             {children}
         </CartContext.Provider>
     );
