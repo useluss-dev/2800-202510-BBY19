@@ -4,7 +4,7 @@ import CartItem from '../components/CartItem';
 import OrderSummary from '../components/OrderSummary';
 import { useCart } from '../context/CartContext';
 
-function cart() {
+function Cart() {
     const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
 
     //function to increase quantity by 1 using updateQuantity from CartContext
@@ -78,4 +78,4 @@ function cart() {
     );
 }
 
-export default cart;
+export default Cart;

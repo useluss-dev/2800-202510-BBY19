@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { GoPlus, GoDash } from 'react-icons/go';
 import { MdOutlineClose } from 'react-icons/md';
+import PropTypes from 'prop-types';
+
 
 function CartItem({ item, quanAdd, quanMinus, remove }) {
     const itemTotalPrice = (item.price * item.quantity).toFixed(2);
@@ -22,11 +24,11 @@ function CartItem({ item, quanAdd, quanMinus, remove }) {
 
             <div className="flex justify-center">
                 <div className="flex items-center justify-center gap-3 rounded-xl border border-gray-300 px-4 py-2 align-middle md:w-2/3 lg:w-1/2">
-                    <button onClick={() => quanMinus(item.id)} className='hover:cursor-pointer'>
+                    <button onClick={() => quanMinus(item.id)} className="hover:cursor-pointer">
                         <GoDash />
                     </button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => quanAdd(item)} className='hover:cursor-pointer'>
+                    <button onClick={() => quanAdd(item)} className="hover:cursor-pointer">
                         <GoPlus />
                     </button>
                 </div>
@@ -47,3 +49,17 @@ function CartItem({ item, quanAdd, quanMinus, remove }) {
 }
 
 export default CartItem;
+
+CartItem.propTypes = {
+    item: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        brand: PropTypes.string.isRequired,
+        quantity: PropTypes.number.isRequired,
+    }).isRequired,
+    quanAdd: PropTypes.func.isRequired,
+    quanMinus: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
+};

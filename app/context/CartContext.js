@@ -1,5 +1,6 @@
 'use client';
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, React } from 'react';
+import PropTypes from 'prop-types';
 
 //used createContext hook to create a context for the cart
 //useContext hook to access context in other components
@@ -79,3 +80,8 @@ export function CartProvider({ children }) {
 export function useCart() {
     return useContext(CartContext);
 }
+
+
+CartProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
