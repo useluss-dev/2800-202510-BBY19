@@ -28,7 +28,7 @@ function cart() {
     //total price of all items in cart and num of items in cart
     const totalPrice = cartItems
         .map((item) => item.price * item.quantity)
-        .reduce((a, b) => a + b, 0);
+        .reduce((a, b) => a + b, 0).toFixed(2);
     const itemsInCart = cartItems.length;
 
     return (
