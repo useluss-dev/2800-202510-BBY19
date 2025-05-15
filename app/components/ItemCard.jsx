@@ -54,6 +54,7 @@ ItemCard.propTypes = {
     rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     reviews: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     prod: PropTypes.object.isRequired,
+    images: PropTypes.object.isRequired,
 };
 
 export default ItemCard;
