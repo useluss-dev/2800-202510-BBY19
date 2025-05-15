@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 function CreateListing() {
     const [form, setForm] = useState({
@@ -9,6 +10,7 @@ function CreateListing() {
         condition: '',
         category: '',
         description: '',
+        brand: '',
         images: [],
     });
 
@@ -45,16 +47,46 @@ function CreateListing() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Submitted listing: ', form);
+
+        try {
+            const res = await fetch('/api/listings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(form),
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                toast.success('Listing created successfully!');
+
+                //reset form
+                setForm({
+                    title: '',
+                    price: '',
+                    condition: '',
+                    category: '',
+                    description: '',
+                    brand: '',
+                    images: [],
+                });
+            } else {
+                toast.error(`Failed to create listing: ${data.error}`);
+            }
+        } catch (err) {
+            toast.error('An unexpected error occurred.');
+        }
     };
 
     return (
-        <div className="mx-auto  p-8">
+        <div className="mx-auto p-8">
             <h1 className="mb-6 text-3xl font-bold lg:mb-12">Create New Listing</h1>
 
-            <div className='md:flex md:justify-center'>
+            <div className="md:flex md:justify-center">
                 <div className="rounded-lg bg-[#232933] p-12 shadow-md md:w-2/3 lg:w-1/2">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Title */}
@@ -65,6 +97,19 @@ function CreateListing() {
                                 name="title"
                                 className="w-full rounded border px-4 py-2"
                                 value={form.title}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        {/* Brand */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Brand:</label>
+                            <input
+                                type="text"
+                                name="brand"
+                                className="w-full rounded border px-4 py-2"
+                                value={form.brand}
                                 onChange={handleChange}
                                 required
                             />
@@ -83,7 +128,7 @@ function CreateListing() {
                             />
                         </div>
 
-                        {/* Condition */}
+                        {/* Category */}
                         <div>
                             <label className="mb-1 block text-xl font-bold">Category:</label>
                             <select
@@ -92,6 +137,7 @@ function CreateListing() {
                                 value={form.category}
                                 onChange={handleChange}
                             >
+                                <option>Select Category</option>
                                 <option value="Smartphones">Smartphones</option>
                                 <option value="Accessories">Accessories</option>
                                 <option value="Tablets">Tablets</option>
@@ -121,9 +167,10 @@ function CreateListing() {
                                 value={form.condition}
                                 onChange={handleChange}
                             >
-                                <option value="new">New</option>
-                                <option value="used">Used</option>
-                                <option value="parts">For parts or not working</option>
+                                <option>Select Condition</option>
+                                <option value="New">New</option>
+                                <option value="Used">Used</option>
+                                <option value="Parts">For parts or not working</option>
                             </select>
                         </div>
 
