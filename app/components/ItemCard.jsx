@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 
+
 function ItemCard({ image, name, price, rating, reviews, prod }) {
     const ratingValue = (parseFloat(rating) / 100) * 5;
     const fullStars = Math.floor(ratingValue);
@@ -52,6 +53,7 @@ ItemCard.propTypes = {
     price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     reviews: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    prod: PropTypes.object.isRequired,
 };
 
 export default ItemCard;

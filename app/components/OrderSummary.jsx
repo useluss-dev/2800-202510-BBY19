@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { MdKeyboardArrowRight } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 function OrderSummary({ cartTotalPrice, cartLength }) {
     return (
-        <div className="mx-6 mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-gray-500 bg-[#232933] p-4 lg:w-2/3 lg:h-fit">
+        <div className="mx-6 mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-gray-500 bg-[#232933] p-4 lg:h-fit lg:w-2/3">
             <h1 className="w-full border-b-1 border-gray-500 pb-4 text-center text-xl font-bold">
                 Order Summary
             </h1>
@@ -43,3 +44,8 @@ function OrderSummary({ cartTotalPrice, cartLength }) {
 }
 
 export default OrderSummary;
+
+OrderSummary.propTypes = {
+    cartTotalPrice: PropTypes.number.isRequired,
+    cartLength: PropTypes.number.isRequired,
+};
