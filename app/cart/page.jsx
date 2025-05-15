@@ -5,7 +5,7 @@ import OrderSummary from '../components/OrderSummary';
 import { useCart } from '../context/CartContext';
 
 function cart() {
-    const { cartItems, updateQuantity } = useCart();
+    const { cartItems, updateQuantity, removeFromCart } = useCart();
 
     //function to increase quantity by 1 using updateQuantity from CartContext
     const quanIncrease = (item) => {
@@ -18,6 +18,11 @@ function cart() {
         if (current && current.quantity > 1) {
             updateQuantity(id, current.quantity - 1);
         }
+    };
+
+    //function to remove item from cart
+    const removeItem = (id) => {
+        removeFromCart(id);
     };
 
     return (
@@ -46,6 +51,7 @@ function cart() {
                                 item={item}
                                 quanAdd={quanIncrease}
                                 quanMinus={quanDecrease}
+                                remove={removeItem}
                             />
                         ))}
                     </div>
