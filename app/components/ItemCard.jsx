@@ -2,12 +2,14 @@ import React from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
+import { useCart } from '../context/CartContext';
 
-function ItemCard({ image, name, price, rating, reviews }) {
+function ItemCard({ image, name, price, rating, reviews, prod }) {
     const ratingValue = (parseFloat(rating) / 100) * 5;
     const fullStars = Math.floor(ratingValue);
     const hasHalfStar = ratingValue - fullStars >= 0.5;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    const { addToCart } = useCart();
 
     return (
         <section className="flex flex-col">
@@ -29,8 +31,15 @@ function ItemCard({ image, name, price, rating, reviews }) {
             <p className="pl-2">{name}</p>
             <div className="flex items-center justify-between px-2">
                 <p className="font-bold">${price}</p>
-                <div className="rounded border border-[#232933] bg-[#232933] p-1.5">
-                    <FaShoppingCart />
+                <div className="">
+                    <button
+                        className="rounded border border-[#232933] bg-[#232933] p-1.5"
+                        onClick={() => {
+                            addToCart(prod);
+                        }}
+                    >
+                        <FaShoppingCart className="cursor-pointer" />
+                    </button>
                 </div>
             </div>
         </section>

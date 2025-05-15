@@ -108,10 +108,10 @@ function Page() {
                     </div>
                 </div>
 
-                {/*mapping through the listings & ItemCard*/}
+                {/*mapping through the listings & ItemCard and passing in the item object as prod prop*/}
                 <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
                     {filteredListings.map((item) => (
-                        <ItemCard key={item.id || item._id} {...item} />
+                        <ItemCard key={item.id || item._id} {...item} prod={item} />
                     ))}
                 </div>
             </main>
