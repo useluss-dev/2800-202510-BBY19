@@ -34,20 +34,20 @@ function cart() {
     return (
         <div>
             <div className="p-6">
-                <p className="pb-4 text-sm text-gray-400">placeholder</p>
                 <h1 className="mb-4 text-2xl font-bold">Shopping cart</h1>
 
                 {/* Header Row */}
                 <div className="flex flex-col justify-between px-6 lg:flex-row">
                     <div className="lg:w-2/3">
-                        <div className="flex justify-around gap-4 py-8 pb-2 font-semibold text-white">
-                            <div className="w-1/2 pl-6">
-                                <p>Product</p>
-                            </div>
-                            <div className="ml-5 flex w-1/2 items-center justify-evenly gap-4 md:mr-2 md:ml-0 lg:mr-8">
-                                <p className="text-center">Quantity</p>
-                                <p className="text-center">Total</p>
-                            </div>
+                        <div className="grid grid-cols-[3fr_2fr_1fr_.5fr] items-center gap-4 border-b border-gray-500 py-4 font-semibold text-white">
+                            <p>Product</p>
+                            <p className="text-center">Quantity</p>
+                            <p className="text-center">Total</p>
+                            <button
+                                className="text-right text-[#F55266] hover:cursor-pointer"
+                            >
+                                Clear
+                            </button>
                         </div>
 
                         {/* Cart Items */}
