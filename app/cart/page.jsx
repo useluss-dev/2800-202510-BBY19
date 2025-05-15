@@ -25,6 +25,12 @@ function cart() {
         removeFromCart(id);
     };
 
+    //total price of all items in cart and num of items in cart
+    const totalPrice = cartItems
+        .map((item) => item.price * item.quantity)
+        .reduce((a, b) => a + b, 0);
+    const itemsInCart = cartItems.length;
+
     return (
         <div>
             <div className="p-6">
@@ -58,7 +64,7 @@ function cart() {
 
                     {/* Order Summary */}
                     <div className="mt-8 lg:mt-0 lg:ml-0 lg:flex lg:w-1/3 lg:justify-end">
-                        <OrderSummary />
+                        <OrderSummary cartTotalPrice={totalPrice} cartLength={itemsInCart} />
                     </div>
                 </div>
             </div>
