@@ -5,7 +5,7 @@ import OrderSummary from '../components/OrderSummary';
 import { useCart } from '../context/CartContext';
 
 function cart() {
-    const { cartItems, updateQuantity, removeFromCart } = useCart();
+    const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
 
     //function to increase quantity by 1 using updateQuantity from CartContext
     const quanIncrease = (item) => {
@@ -28,7 +28,8 @@ function cart() {
     //total price of all items in cart and num of items in cart
     const totalPrice = cartItems
         .map((item) => item.price * item.quantity)
-        .reduce((a, b) => a + b, 0).toFixed(2);
+        .reduce((a, b) => a + b, 0)
+        .toFixed(2);
     const itemsInCart = cartItems.length;
 
     return (
@@ -44,6 +45,7 @@ function cart() {
                             <p className="text-center">Quantity</p>
                             <p className="text-center">Total</p>
                             <button
+                                onClick={clearCart}
                                 className="text-right text-[#F55266] hover:cursor-pointer"
                             >
                                 Clear
