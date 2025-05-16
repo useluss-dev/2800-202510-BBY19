@@ -1,18 +1,23 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { IoChevronDownSharp } from 'react-icons/io5';
 import Link from 'next/link';
+import { IoChevronDownSharp, IoSettings } from 'react-icons/io5';
 import { TbCategory } from 'react-icons/tb';
+import { FiCpu } from 'react-icons/fi';
+import { BsFillMotherboardFill, BsGpuCard, BsDeviceHdd } from 'react-icons/bs';
+import { LuTabletSmartphone } from 'react-icons/lu';
+import { MdMonitor } from 'react-icons/md';
+import { FaLaptop } from 'react-icons/fa';
 
 const categories = [
-    { name: 'Placeholder', icon: 'icon', link: '/' },
-    { name: 'Placeholder', icon: 'icon', link: '/' },
-    { name: 'Placeholder', icon: 'icon', link: '/' },
-    { name: 'Placeholder', icon: 'icon', link: '/' },
-    { name: 'Placeholder', icon: 'icon', link: '/' },
-    { name: 'Placeholder', icon: 'icon', link: '/' },
-    { name: 'Placeholder', icon: 'icon', link: '/' },
-    { name: 'Placeholder', icon: 'icon', link: '/' },
+    { name: 'Laptops', icon: <FaLaptop />, query: 'laptops' },
+    { name: 'Tablets', icon: <LuTabletSmartphone />, query: 'tablets' },
+    { name: 'Storage', icon: <BsDeviceHdd />, query: 'storage' },
+    { name: 'Monitors', icon: <MdMonitor />, query: 'monitors' },
+    { name: 'CPUs', icon: <FiCpu />, query: 'cpus' },
+    { name: 'GPUs', icon: <BsGpuCard />, query: 'gpus' },
+    { name: 'Motherboards', icon: <BsFillMotherboardFill />, query: 'motherboards' },
+    { name: 'Other', icon: <IoSettings />, query: 'other' },
 ];
 
 export default function CategoryDropdown() {
@@ -64,7 +69,7 @@ export default function CategoryDropdown() {
             >
                 <ul className={`${isDesktop ? 'py-2' : 'py-2 pl-4'}`}>
                     {categories.map((cat, idx) => (
-                        <Link href={cat.link} key={idx}>
+                        <Link href={`/shop?category=${cat.query}`} key={idx}>
                             <li className="text-md flex cursor-pointer items-center px-4 py-2 font-semibold hover:bg-[#29313e]">
                                 <span className="mr-3 text-xl">{cat.icon}</span>
                                 {cat.name}
