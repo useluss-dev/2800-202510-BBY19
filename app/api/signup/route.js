@@ -1,4 +1,6 @@
 import clientPromise from '../../lib/mongodb';
+import bcrypt from 'bcrypt';
+
 
 export async function POST(request) {
     try {
@@ -8,11 +10,13 @@ export async function POST(request) {
         const client = await clientPromise;
         const db = client.db(process.env.MONGODB_NAME);
         const users = db.collection('users');
-
+        const saltRounds = 12;
+        
+        let hashedPassword = bcrypt.hashSync(password, saltRounds);
         const result = await users.insertOne({
             fullname,
             email,
-            password,
+            password:hashedPassword,
             phonenumber,
             createdAt: new Date(),
         });
