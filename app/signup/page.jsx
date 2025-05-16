@@ -1,54 +1,58 @@
-'use client'
-import React, { useState } from "react";
-import Image from "next/image";
-import singupImage from "../assets/images/signup.svg";
-import logo from "../assets/images/ReCompute.png";
-import Link from "next/link";
-import { FaFacebookF, FaGoogle, FaApple } from "react-icons/fa";
+'use client';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import singupImage from '../assets/images/signup.svg';
+import logo from '../assets/images/ReCompute.png';
+import Link from 'next/link';
+import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 
 function SignUp() {
-    const [fullname, setFullname] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [phonenumber, setPhonenumber] = useState('')
+    const [fullname, setFullname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [phonenumber, setPhonenumber] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = { fullname, email, password, phonenumber };
-        // Perform validation and send data to the backend 
-        const user = { fullname: fullname, email: email, password: password, phonenumber: phonenumber };
+        // Perform validation and send data to the backend
+        const user = {
+            fullname: formData.fullname,
+            email: formData.email,
+            password: formData.password,
+            phonenumber: formData.phonenumber,
+        };
+        console.log(user);
         const res = await fetch('/api/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
+            body: JSON.stringify(user),
         });
 
         const data = await res.json();
-        const [status, message] = [res.status, data.message || data.error || 'No response message'];
         alert(data.message || data.error || 'No response message');
-
     };
 
-
     return (
-        <div className="flex p-4 h-screen md:h-full md:pb-44 lg:pb-0 lg:items-start">
-            <div className="w-full lg:w-1/2 flex flex-col ">
+        <div className="flex h-screen p-4 md:h-full md:pb-44 lg:items-start lg:pb-0">
+            <div className="flex w-full flex-col lg:w-1/2">
                 <div className="flex items-center">
                     <Image src={logo} alt="Logo" className="w-1/6 lg:w-1/12" />
-                    <h1 className="font-bold text-2xl">ReCompute</h1>
+                    <h1 className="text-2xl font-bold">ReCompute</h1>
                 </div>
-                <div className="pt-20 flex flex-col items-center lg:pt-12 lg:w-2/3">
+                <div className="flex flex-col items-center pt-20 lg:w-2/3 lg:pt-12">
                     <div className="w-full max-w-md">
-                        <h1 className="w-full text-2xl font-bold pb-4 text-left lg:text-4xl">
+                        <h1 className="w-full pb-4 text-left text-2xl font-bold lg:text-4xl">
                             Create an account
                         </h1>
-                        <p className="text-gray-500 pb-4">
-                            I already have an account{" "}
-                            <Link href={"/login"}>
+                        <p className="pb-4 text-gray-500">
+                            I already have an account{' '}
+                            <Link href={'/login'}>
                                 <span className="underline underline-offset-2">Sign in</span>
-                            </Link>{" "}
+                            </Link>{' '}
                         </p>
-                        <form onSubmit={handleSubmit}
+                        <form
+                            onSubmit={handleSubmit}
                             className="flex flex-col space-y-4 lg:space-y-3"
                         >
                             <input
@@ -57,7 +61,7 @@ function SignUp() {
                                 onChange={(e) => setFullname(e.target.value)}
                                 placeholder="Full Name"
                                 required
-                                className="px-3 py-4 rounded-lg border border-gray-300"
+                                className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <input
                                 type="text"
@@ -65,7 +69,7 @@ function SignUp() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Email"
                                 required
-                                className="px-3 py-4 rounded-lg border border-gray-300"
+                                className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <input
                                 type="password"
@@ -73,7 +77,7 @@ function SignUp() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password"
                                 required
-                                className="px-3 py-4 rounded-lg border border-gray-300"
+                                className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <input
                                 type="tel"
@@ -83,11 +87,11 @@ function SignUp() {
                                 // pattern="[\d()+-]{10,15}"
                                 placeholder="Phone Number"
                                 required
-                                className="px-3 py-4 rounded-lg border border-gray-300"
+                                className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <button
                                 type="submit"
-                                className="bg-[#F55266] hover:bg-[#f55265c8] px-3 py-4 rounded-lg text-lg font-semibold"
+                                className="rounded-lg bg-[#F55266] px-3 py-4 text-lg font-semibold hover:bg-[#f55265c8]"
                             >
                                 Create an account
                             </button>
@@ -99,21 +103,21 @@ function SignUp() {
                             <div className="flex justify-center gap-x-4">
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-x-2"
+                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
                                 >
                                     <FaFacebookF />
                                     Facebook
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-x-2"
+                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
                                 >
                                     <FaGoogle />
                                     Google
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-x-2"
+                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
                                 >
                                     <FaApple />
                                     Apple

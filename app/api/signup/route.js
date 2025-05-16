@@ -1,7 +1,6 @@
 import clientPromise from '../../lib/mongodb';
 import bcrypt from 'bcrypt';
 
-
 export async function POST(request) {
     try {
         const body = await request.json();
@@ -11,23 +10,25 @@ export async function POST(request) {
         const db = client.db(process.env.MONGODB_NAME);
         const users = db.collection('users');
         const saltRounds = 12;
-        
+
         let hashedPassword = bcrypt.hashSync(password, saltRounds);
         const result = await users.insertOne({
             fullname,
             email,
-            password:hashedPassword,
+            password: hashedPassword,
             phonenumber,
             createdAt: new Date(),
         });
 
-        return new Response(JSON.stringify({message:`User created successfully (${result.insertedId})`}), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-        });
-        
+        return new Response(
+            JSON.stringify({ message: `User created successfully (${result.insertedId})` }),
+            {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            },
+        );
     } catch (error) {
-        return new Response(JSON.stringify({ error: 'Failed to signup user' }), {
+        return new Response(JSON.stringify({ error: error }), {
             status: 500,
         });
     }
