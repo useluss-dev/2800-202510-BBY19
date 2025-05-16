@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 function CreateListing() {
     const [form, setForm] = useState({
@@ -213,7 +214,7 @@ function CreateListing() {
                                         >
                                             <IoMdClose />
                                         </button>
-                                        <img
+                                        <Image
                                             src={img}
                                             alt={`Preview ${index}`}
                                             className="h-32 w-full object-contain"

@@ -1,11 +1,10 @@
-'use client'
-import { useState, useEffect } from 'react'
-import React from 'react'
+'use client';
+import { useState, useEffect } from 'react';
+import React from 'react';
 import ItemCard from '../components/ItemCard';
 
 function NewArrivals() {
-    const [items, setItems] = useState([])
-
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -13,22 +12,20 @@ function NewArrivals() {
             const data = await res.json();
 
             //Client side
-            const sortedItems = data.sort((a, b) =>
-                b.timestamp - a.timestamp).slice(0, 6);
+            const sortedItems = data.sort((a, b) => b.timestamp - a.timestamp).slice(0, 6);
             setItems(sortedItems);
         };
         fetchItems();
     }, []);
 
     return (
-        <div className="w-full py-5 mt-6">
-
-            <div className="flex flex-col p-3 rounded-lg w-full max-w-screen-xl">
+        <div className="mt-6 w-full py-5">
+            <div className="flex w-full max-w-screen-xl flex-col rounded-lg p-3">
                 <div>
-                    <h1 className="text-2xl font-bold text-white ml-3 mb-4">Recents</h1>
+                    <h1 className="mb-4 ml-3 text-2xl font-bold text-white">Recents</h1>
                 </div>
 
-                <div className="grid grid-cols-2 justify-around items-center gap-4 object-fit md:grid-cols-3 lg:grid-cols-4">
+                <div className="object-fit grid grid-cols-2 items-center justify-around gap-4 md:grid-cols-3 lg:grid-cols-4">
                     {items.map((item, index) => (
                         <div key={index} className="m-1">
                             <ItemCard
@@ -44,7 +41,7 @@ function NewArrivals() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default NewArrivals
+export default NewArrivals;
