@@ -4,8 +4,7 @@ import ItemCard from '../components/ItemCard';
 import SidebarFilter from '../components/SidebarFilter';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
-
-function page() {
+function Page() {
     //state variables to manage the state of listings, filtering, sorting, and categories from API
     const [listings, setListings] = useState([]);
     const [filteredListings, setFilteredListings] = useState([]);
@@ -109,10 +108,10 @@ function page() {
                     </div>
                 </div>
 
-                {/*mapping through the listings & ItemCard*/}
+                {/*mapping through the listings & ItemCard and passing in the item object as prod prop*/}
                 <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
                     {filteredListings.map((item) => (
-                        <ItemCard key={item.id || item._id} {...item} />
+                        <ItemCard key={item.id || item._id} {...item} prod={item} />
                     ))}
                 </div>
             </main>
@@ -120,4 +119,4 @@ function page() {
     );
 }
 
-export default page;
+export default Page;

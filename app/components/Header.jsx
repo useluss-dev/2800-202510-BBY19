@@ -9,6 +9,7 @@ import cart from '../assets/icons/cart-shopping-svgrepo-com.svg';
 import ReComputeLogo from '../assets/images/ReCompute.png';
 import CategoryDropdown from './CategoryDropdown';
 import { CiSearch } from 'react-icons/ci';
+import { useCart } from '../context/CartContext';
 
 export default function Header() {
     const navItems = [
@@ -20,12 +21,15 @@ export default function Header() {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const { cartItems } = useCart();
+    const cartLength = cartItems.length;
+
     return (
         <header className="relative z-50 bg-[#232933] text-white">
             <div>
                 <div className="mx-auto flex max-w-7xl items-center justify-center px-4 text-sm sm:px-6 lg:px-8">
                     <div className="pt-2">
-                        USE CODE <span className="text-pink-500">RECOMPUTE20</span> FOR 20% OFF
+                        USE CODE <span className="text-[#F55266]">RECOMPUTE20</span> FOR 20% OFF
                     </div>
                 </div>
             </div>
@@ -63,18 +67,20 @@ export default function Header() {
                 </div>
                 {/* navigation icons */}
                 <div className="flex items-center space-x-2">
-                    <button className="rounded-full p-1 invert hover:bg-[#049b49]">
+                    <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
                         <Image src={wishlist} width={24} height={24} alt="Wishlist" />
                     </button>
-                    <button className="rounded-full p-1 invert hover:bg-[#049b49]">
+                    <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
                         <Image src={user} width={24} height={24} alt="Profile" />
                     </button>
-                    <button className="relative rounded-full p-1 invert hover:bg-[#049b49]">
-                        <Image src={cart} width={24} height={24} alt="Cart" />
-                        <span className="absolute -top-1 -right-1 rounded-full bg-red-500 px-1 text-xs text-white invert">
-                            10
-                        </span>
-                    </button>
+                    <Link href="/cart">
+                        <button className="relative rounded-full p-1 invert hover:bg-[#0AAD99]">
+                            <Image src={cart} width={24} height={24} alt="Cart" />
+                            <span className="absolute -top-1 -right-1 rounded-full bg-red-500 px-1 text-xs text-white invert">
+                                {cartLength}
+                            </span>
+                        </button>
+                    </Link>
                 </div>
             </div>
 
