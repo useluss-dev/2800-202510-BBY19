@@ -2,16 +2,18 @@ import React from 'react';
 import Image from 'next/image';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
 
-function ItemCard({ image, name, price, rating, reviews }) {
+function ItemCard({ image, name, price, rating, reviews, images }) {
     const ratingValue = (parseFloat(rating) / 100) * 5;
     const fullStars = Math.floor(ratingValue);
     const hasHalfStar = ratingValue - fullStars >= 0.5;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    const cardImage = images?.[0] || image;
+
 
     return (
         <section className="flex flex-col">
             <div className="relative h-64 w-full overflow-hidden rounded-3xl">
-                <Image src={image} alt="image" fill className="" />
+                <Image src={cardImage} alt="image" fill className="" />
             </div>
 
             <div className="flex items-center gap-1 pt-2 pl-2">
