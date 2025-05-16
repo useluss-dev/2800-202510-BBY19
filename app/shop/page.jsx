@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import ItemCard from '../components/ItemCard';
 import SidebarFilter from '../components/SidebarFilter';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import PropTypes from 'prop-types';
 
 function CategoryQueryHandler({ setFilters }) {
     const searchParams = useSearchParams();
@@ -20,6 +21,10 @@ function CategoryQueryHandler({ setFilters }) {
 
     return null;
 }
+
+CategoryQueryHandler.propTypes = {
+    setFilters: PropTypes.func.isRequired,
+};
 
 function Page() {
     //state variables to manage the state of listings, filtering, sorting, and categories from API
