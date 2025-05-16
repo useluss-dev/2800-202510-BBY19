@@ -1,10 +1,7 @@
 import React from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import PropTypes from 'prop-types';
-import { loadStripe } from '@stripe/stripe-js';
 import { useCart } from '../context/CartContext';
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 function OrderSummary({ cartTotalPrice, cartLength }) {
     const { cartItems } = useCart();

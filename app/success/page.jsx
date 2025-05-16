@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 
-function success() {
+function Success() {
     const { clearCart } = useCart();
 
     useEffect(() => {
@@ -24,4 +24,4 @@ function success() {
     );
 }
 
-export default success;
+export default Success;
