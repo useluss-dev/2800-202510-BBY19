@@ -1,9 +1,25 @@
 'use client';
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ItemCard from '../components/ItemCard';
 import SidebarFilter from '../components/SidebarFilter';
 import { IoMdArrowDropdown } from 'react-icons/io';
+
+function CategoryQueryHandler({ setFilters }) {
+    const searchParams = useSearchParams();
+    const categoryQuery = searchParams.get('category');
+
+    useEffect(() => {
+        if (categoryQuery !== null) {
+            setFilters((prev) => ({
+                ...prev,
+                category: categoryQuery ? [decodeURIComponent(categoryQuery)] : [],
+            }));
+        }
+    }, [categoryQuery, setFilters]);
+
+    return null;
+}
 
 function Page() {
     //state variables to manage the state of listings, filtering, sorting, and categories from API
@@ -16,9 +32,6 @@ function Page() {
         category: [],
         priceRange: [0, 2000],
     });
-    //to get search params from URL and get category
-    const searchParams = useSearchParams();
-    const categoryQuery = searchParams.get('category');
 
     //hook to fetch listings and categories from API and set them in state
     useEffect(() => {
@@ -37,17 +50,9 @@ function Page() {
                 count,
             }));
             setCategories(formatted);
-
-            //if category is in the URL then apply it to filters
-            if (categoryQuery) {
-                setFilters((prev) => ({
-                    ...prev,
-                    category: [decodeURIComponent(categoryQuery)],
-                }));
-            }
         };
         fetchListings();
-    }, [categoryQuery]);
+    }, []);
 
     //hook to filter and sort listings based on selection on frontend and set in state
     useEffect(() => {
@@ -65,7 +70,6 @@ function Page() {
                 activeCategories.includes(item.category.toLowerCase()),
             );
         }
-
 
         //this is to filter listings based on price
         result = result.filter(
@@ -99,6 +103,10 @@ function Page() {
                     Filters
                 </button>
             </div>
+
+            <Suspense fallback={null}>
+                <CategoryQueryHandler setFilters={setFilters} />
+            </Suspense>
 
             <SidebarFilter
                 categories={categories}
