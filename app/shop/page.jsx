@@ -1,8 +1,30 @@
 'use client';
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ItemCard from '../components/ItemCard';
 import SidebarFilter from '../components/SidebarFilter';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import PropTypes from 'prop-types';
+
+function CategoryQueryHandler({ setFilters }) {
+    const searchParams = useSearchParams();
+    const categoryQuery = searchParams.get('category');
+
+    useEffect(() => {
+        if (categoryQuery !== null) {
+            setFilters((prev) => ({
+                ...prev,
+                category: categoryQuery ? [decodeURIComponent(categoryQuery)] : [],
+            }));
+        }
+    }, [categoryQuery, setFilters]);
+
+    return null;
+}
+
+CategoryQueryHandler.propTypes = {
+    setFilters: PropTypes.func.isRequired,
+};
 
 function Page() {
     //state variables to manage the state of listings, filtering, sorting, and categories from API
@@ -42,8 +64,16 @@ function Page() {
         let result = [...listings];
 
         //this is to filter listings based on category
-        if (filters.category.length) {
-            result = result.filter((item) => filters.category.includes(item.category));
+        //activeCategories filter out empty string passed in the query
+        const activeCategories = filters.category
+            .map((c) => c.toLowerCase())
+            .filter((c) => c !== '');
+
+        //if there is a category then filter otherwise skip the filtering and show all listings
+        if (activeCategories.length) {
+            result = result.filter((item) =>
+                activeCategories.includes(item.category.toLowerCase()),
+            );
         }
 
         //this is to filter listings based on price
@@ -78,6 +108,10 @@ function Page() {
                     Filters
                 </button>
             </div>
+
+            <Suspense fallback={null}>
+                <CategoryQueryHandler setFilters={setFilters} />
+            </Suspense>
 
             <SidebarFilter
                 categories={categories}
