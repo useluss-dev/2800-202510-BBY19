@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { GoPlus, GoDash } from 'react-icons/go';
 import { MdOutlineClose } from 'react-icons/md';
 import PropTypes from 'prop-types';
@@ -10,7 +9,7 @@ function CartItem({ item, quanAdd, quanMinus, remove }) {
     return (
         <div className="grid grid-cols-[2fr_1fr_1fr_auto] items-center justify-center gap-4 border-t border-gray-500 py-4 lg:mx-0 lg:w-full">
             <div className="flex min-w-0 items-center gap-4">
-                <Image src={item.image} alt={item.name} width={100} height={100} />
+                <img src={item.image} alt={item.name} width={100} height={100} />
                 <div>
                     <h3 className="pb-1 font-bold">{item.name}</h3>
                     <p className="text-sm">
