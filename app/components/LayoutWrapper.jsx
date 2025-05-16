@@ -1,4 +1,6 @@
 'use client';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { usePathname } from 'next/navigation';
 import Header from './Header';
 import Footer from './Footer';
@@ -15,3 +17,7 @@ export default function LayoutWrapper({ children }) {
         </>
     );
 }
+
+LayoutWrapper.propTypes = {
+    children: PropTypes.node,
+};

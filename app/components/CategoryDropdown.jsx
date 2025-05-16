@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoChevronDownSharp } from 'react-icons/io5';
 import Link from 'next/link';
 import { TbCategory } from 'react-icons/tb';
