@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { IoChevronDownSharp, IoSettings } from 'react-icons/io5';
+import { IoChevronDownSharp, IoSettings, IoGameControllerSharp } from 'react-icons/io5';
 import { TbCategory } from 'react-icons/tb';
 import { FiCpu } from 'react-icons/fi';
 import { BsFillMotherboardFill, BsGpuCard, BsDeviceHdd } from 'react-icons/bs';
@@ -17,13 +17,14 @@ const categories = [
     { name: 'CPUs', icon: <FiCpu />, query: 'Processor' },
     { name: 'GPUs', icon: <BsGpuCard />, query: 'Graphics Card' },
     { name: 'Motherboards', icon: <BsFillMotherboardFill />, query: 'Motherboard' },
-    { name: 'Accessories', icon: <IoSettings />, query: 'Accessories' },
+    { name: 'Accessories', icon: <IoGameControllerSharp />, query: 'Accessories' },
     { name: 'Other', icon: <IoSettings />, query: '' },
 ];
 
 export default function CategoryDropdown() {
     const [open, setOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(false);
+    const [hasMounted, setHasMounted] = useState(false);
 
     // check screen size
     useEffect(() => {
@@ -32,6 +33,13 @@ export default function CategoryDropdown() {
         const handler = () => setIsDesktop(mediaQuery.matches);
         mediaQuery.addEventListener('change', handler);
         return () => mediaQuery.removeEventListener('change', handler);
+    }, []);
+
+
+    //once component is mouted it sets hasMounted to true and forces dropdown to close
+    useEffect(() => {
+        setHasMounted(true);
+        setOpen(false);
     }, []);
 
     return (
@@ -59,26 +67,28 @@ export default function CategoryDropdown() {
             </div>
 
             {/* dropdown items */}
-            <div
-                className={`overflow-hidden transition-all duration-200 ${
-                    isDesktop
-                        ? `absolute z-10 mt-2 max-h-96 w-full overflow-y-auto rounded-md bg-[#232933] shadow-md ring-1 ring-black/10 ${
-                              open ? 'visible opacity-100' : 'invisible opacity-0'
-                          } group-hover:visible group-hover:opacity-100`
-                        : `${open ? 'mt-2 max-h-screen' : 'max-h-0'}`
-                }`}
-            >
-                <ul className={`${isDesktop ? 'py-2' : 'py-2 pl-4'}`}>
-                    {categories.map((cat, idx) => (
-                        <Link href={`/shop?category=${cat.query}`} key={idx}>
-                            <li className="text-md flex cursor-pointer items-center px-4 py-2 font-semibold hover:bg-[#29313e]">
-                                <span className="mr-3 text-xl">{cat.icon}</span>
-                                {cat.name}
-                            </li>
-                        </Link>
-                    ))}
-                </ul>
-            </div>
+            {hasMounted && (
+                <div
+                    className={`overflow-hidden transition-all duration-200 ${
+                        isDesktop
+                            ? `absolute z-10 mt-2 max-h-96 w-full overflow-y-auto rounded-b-lg bg-[#29313e] shadow-md ring-1 ring-black/10 ${
+                                  open ? 'visible opacity-100' : 'invisible opacity-0'
+                              }`
+                            : `${open ? 'mt-2 max-h-screen' : 'max-h-0'}`
+                    }`}
+                >
+                    <ul className={`${isDesktop ? 'py-2' : 'py-2 pl-4'}`}>
+                        {categories.map((cat, idx) => (
+                            <Link href={`/shop?category=${cat.query}`} key={idx}>
+                                <li className="text-md flex cursor-pointer items-center px-4 py-2 font-semibold hover:bg-[#232933]">
+                                    <span className="mr-3 text-xl">{cat.icon}</span>
+                                    {cat.name}
+                                </li>
+                            </Link>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 }
