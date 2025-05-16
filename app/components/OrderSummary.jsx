@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { loadStripe } from '@stripe/stripe-js';
