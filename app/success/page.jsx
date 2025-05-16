@@ -1,8 +1,15 @@
-import React from 'react';
+'use client';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCart } from '../context/CartContext';
 
 function success() {
+    const { clearCart } = useCart();
+
+    useEffect(() => {
+        clearCart();
+    }, []);
     return (
         <div className="flex min-h-[calc(100vh-92px)] flex-col items-center justify-center lg:min-h-[calc(100vh-140px)]">
             <Image src="/success.png" alt="success" width={200} height={200} className="mb-8" />
