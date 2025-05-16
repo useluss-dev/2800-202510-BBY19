@@ -10,14 +10,15 @@ import { MdMonitor } from 'react-icons/md';
 import { FaLaptop } from 'react-icons/fa';
 
 const categories = [
-    { name: 'Laptops', icon: <FaLaptop />, query: 'laptops' },
-    { name: 'Tablets', icon: <LuTabletSmartphone />, query: 'tablets' },
-    { name: 'Storage', icon: <BsDeviceHdd />, query: 'storage' },
-    { name: 'Monitors', icon: <MdMonitor />, query: 'monitors' },
-    { name: 'CPUs', icon: <FiCpu />, query: 'cpus' },
-    { name: 'GPUs', icon: <BsGpuCard />, query: 'gpus' },
-    { name: 'Motherboards', icon: <BsFillMotherboardFill />, query: 'motherboards' },
-    { name: 'Other', icon: <IoSettings />, query: 'other' },
+    { name: 'Laptops', icon: <FaLaptop />, query: 'Computers & Laptops' },
+    { name: 'Tablets', icon: <LuTabletSmartphone />, query: 'Tablets' },
+    { name: 'Storage', icon: <BsDeviceHdd />, query: 'Storage' },
+    { name: 'Monitors', icon: <MdMonitor />, query: 'Monitor' },
+    { name: 'CPUs', icon: <FiCpu />, query: 'Processor' },
+    { name: 'GPUs', icon: <BsGpuCard />, query: 'Graphics Card' },
+    { name: 'Motherboards', icon: <BsFillMotherboardFill />, query: 'Motherboard' },
+    { name: 'Accessories', icon: <IoSettings />, query: 'Accessories' },
+    { name: 'Other', icon: <IoSettings />, query: '' },
 ];
 
 export default function CategoryDropdown() {
