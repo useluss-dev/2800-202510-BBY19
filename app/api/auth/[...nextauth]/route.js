@@ -20,7 +20,7 @@ const handler = NextAuth({
                     throw new Error('Invalid email or password');
                 }
 
-                // Remove password before returning
+                // eslint-disable-next-line
                 const { password, ...userWithoutPassword } = user;
                 return userWithoutPassword;
             },

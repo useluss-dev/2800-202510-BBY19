@@ -28,6 +28,7 @@ function Login() {
             router.push('/profile');
         } else {
             setError('Invalid email or password');
+            console.log(error);
         }
     };
 
