@@ -1,11 +1,36 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import loginImage from '../assets/images/login.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const router = useRouter();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
+
+        const res = await signIn('credentials', {
+            redirect: false,
+            email,
+            password,
+        });
+
+        if (res.ok) {
+            router.push('/profile');
+        } else {
+            setError('Invalid email or password');
+        }
+    };
+
     return (
         <div className="flex h-screen p-4 md:h-full md:pb-44 lg:items-start lg:pb-0">
             <div className="flex w-full flex-col lg:w-1/2">
@@ -24,16 +49,21 @@ function Login() {
                                 <span className="underline underline-offset-2">Sign up</span>
                             </Link>{' '}
                         </p>
-                        <form action="POST" className="flex flex-col space-y-4 lg:space-y-3">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col space-y-4 lg:space-y-3"
+                        >
                             <input
                                 type="text"
                                 placeholder="Email"
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <input
                                 type="password"
                                 placeholder="Password"
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
                             />
