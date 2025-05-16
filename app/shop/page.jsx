@@ -1,5 +1,6 @@
 'use client';
 import { React, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ItemCard from '../components/ItemCard';
 import SidebarFilter from '../components/SidebarFilter';
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -15,6 +16,9 @@ function Page() {
         category: [],
         priceRange: [0, 2000],
     });
+    //to get search params from URL and get category
+    const searchParams = useSearchParams();
+    const categoryQuery = searchParams.get('category');
 
     //hook to fetch listings and categories from API and set them in state
     useEffect(() => {
@@ -33,18 +37,35 @@ function Page() {
                 count,
             }));
             setCategories(formatted);
+
+            //if category is in the URL then apply it to filters
+            if (categoryQuery) {
+                setFilters((prev) => ({
+                    ...prev,
+                    category: [decodeURIComponent(categoryQuery)],
+                }));
+            }
         };
         fetchListings();
-    }, []);
+    }, [categoryQuery]);
 
     //hook to filter and sort listings based on selection on frontend and set in state
     useEffect(() => {
         let result = [...listings];
 
         //this is to filter listings based on category
-        if (filters.category.length) {
-            result = result.filter((item) => filters.category.includes(item.category));
+        //activeCategories filter out empty string passed in the query
+        const activeCategories = filters.category
+            .map((c) => c.toLowerCase())
+            .filter((c) => c !== '');
+
+        //if there is a category then filter otherwise skip the filtering and show all listings
+        if (activeCategories.length) {
+            result = result.filter((item) =>
+                activeCategories.includes(item.category.toLowerCase()),
+            );
         }
+
 
         //this is to filter listings based on price
         result = result.filter(
