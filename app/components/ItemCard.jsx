@@ -12,6 +12,13 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
     const { addToCart } = useCart();
     const cardImage = images?.[0] || image;
 
+    const normalizedProd = {
+        ...prod,
+        id: prod.id || prod._id,
+        image: cardImage,
+        name: prod.name || prod.title,
+    };
+
     return (
         <section className="flex flex-col">
             <div className="relative h-64 w-full overflow-hidden rounded-3xl">
@@ -36,7 +43,7 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
                     <button
                         className="rounded border border-[#232933] bg-[#232933] p-1.5"
                         onClick={() => {
-                            addToCart(prod);
+                            addToCart(normalizedProd);
                         }}
                     >
                         <FaShoppingCart className="cursor-pointer" />

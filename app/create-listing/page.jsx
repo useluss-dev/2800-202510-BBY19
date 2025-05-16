@@ -214,7 +214,7 @@ function CreateListing() {
                                         >
                                             <IoMdClose />
                                         </button>
-                                        <Image
+                                        <img
                                             src={img}
                                             alt={`Preview ${index}`}
                                             className="h-32 w-full object-contain"
