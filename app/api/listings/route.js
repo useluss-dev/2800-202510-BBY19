@@ -48,7 +48,7 @@ export async function POST(req) {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (err) {
-        console.log(err)
+        console.log(err);
         return new Response(JSON.stringify({ error: 'Failed to create listing' }), {
             status: 500,
         });

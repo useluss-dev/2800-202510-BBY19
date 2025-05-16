@@ -35,7 +35,6 @@ export default function CategoryDropdown() {
         return () => mediaQuery.removeEventListener('change', handler);
     }, []);
 
-
     //once component is mouted it sets hasMounted to true and forces dropdown to close
     useEffect(() => {
         setHasMounted(true);

@@ -81,7 +81,6 @@ export function useCart() {
     return useContext(CartContext);
 }
 
-
 CartProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };

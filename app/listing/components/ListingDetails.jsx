@@ -47,13 +47,13 @@ function ListingDetails() {
                 <button className="w-full cursor-pointer rounded-full bg-[#F55266] py-3 font-semibold text-white transition hover:bg-[#f55265c8]">
                     Buy It Now
                 </button>
-                <button className="w-full cursor-pointer rounded-full border-2 border-[#F55266] hover:bg-[#F55266] py-3 font-semibold text-white">
+                <button className="w-full cursor-pointer rounded-full border-2 border-[#F55266] py-3 font-semibold text-white hover:bg-[#F55266]">
                     Add to cart
                 </button>
-                <button className="w-full cursor-pointer rounded-full border-2 border-[#F55266] hover:bg-[#F55266] py-3 font-semibold text-white">
+                <button className="w-full cursor-pointer rounded-full border-2 border-[#F55266] py-3 font-semibold text-white hover:bg-[#F55266]">
                     Make offer
                 </button>
-                <button className="w-full cursor-pointer rounded-full border-2 border-[#F55266] hover:bg-[#F55266] py-3 font-semibold text-white">
+                <button className="w-full cursor-pointer rounded-full border-2 border-[#F55266] py-3 font-semibold text-white hover:bg-[#F55266]">
                     Add to Wishlist
                 </button>
             </div>
