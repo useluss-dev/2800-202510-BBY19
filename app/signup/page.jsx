@@ -16,7 +16,6 @@ function SignUp() {
         e.preventDefault();
         const formData = { fullname, email, password, phonenumber };
         // Perform validation and send data to the backend 
-        console.log({ fullname, email, password, phonenumber })
         const user = { fullname: fullname, email: email, password: password, phonenumber: phonenumber };
         const res = await fetch('/api/signup', {
             method: 'POST',
@@ -25,9 +24,7 @@ function SignUp() {
         });
 
         const data = await res.json();
-        console.log(data);
         const [status, message] = [res.status, data.message || data.error || 'No response message'];
-        console.log(status, message);
         alert(data.message || data.error || 'No response message');
 
     };
