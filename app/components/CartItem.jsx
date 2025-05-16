@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { GoPlus, GoDash } from 'react-icons/go';
 import { MdOutlineClose } from 'react-icons/md';
 import PropTypes from 'prop-types';
