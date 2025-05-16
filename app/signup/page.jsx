@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import singupImage from '../assets/images/signup.svg';
 import logo from '../assets/images/ReCompute.png';
@@ -6,6 +7,32 @@ import Link from 'next/link';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 
 function SignUp() {
+    const [fullname, setFullname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [phonenumber, setPhonenumber] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = { fullname, email, password, phonenumber };
+        // Perform validation and send data to the backend
+        const user = {
+            fullname: formData.fullname,
+            email: formData.email,
+            password: formData.password,
+            phonenumber: formData.phonenumber,
+        };
+        console.log(user);
+        const res = await fetch('/api/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user),
+        });
+
+        const data = await res.json();
+        alert(data.message || data.error || 'No response message');
+    };
+
     return (
         <div className="flex h-screen p-4 md:h-full md:pb-44 lg:items-start lg:pb-0">
             <div className="flex w-full flex-col lg:w-1/2">
@@ -24,29 +51,40 @@ function SignUp() {
                                 <span className="underline underline-offset-2">Sign in</span>
                             </Link>{' '}
                         </p>
-                        <form action="POST" className="flex flex-col space-y-4 lg:space-y-3">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col space-y-4 lg:space-y-3"
+                        >
                             <input
                                 type="text"
+                                value={fullname}
+                                onChange={(e) => setFullname(e.target.value)}
                                 placeholder="Full Name"
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <input
                                 type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Email"
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <input
                                 type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password"
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
                             />
                             <input
                                 type="tel"
+                                value={phonenumber}
+                                onChange={(e) => setPhonenumber(e.target.value)}
                                 inputMode="numeric"
-                                pattern="[\d()+-]{10,15}"
+                                // pattern="[\d()+-]{10,15}"
                                 placeholder="Phone Number"
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
