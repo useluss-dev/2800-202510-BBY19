@@ -27,7 +27,6 @@ export async function GET() {
             headers: { 'Content-Type': 'application/json' },
     });
     } catch (error) {
-        console.log('In here5' + error);
         return new Response(JSON.stringify({ error: 'Failed to fetch wishlists' }), {
             status: 500,
         });
