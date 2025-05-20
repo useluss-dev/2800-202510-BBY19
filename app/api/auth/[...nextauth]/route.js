@@ -3,6 +3,8 @@ import Credentials from 'next-auth/providers/credentials';
 import clientPromise from '../../../lib/mongodb';
 import { compare } from 'bcrypt';
 
+export const runtime = 'nodejs';
+
 const handler = NextAuth({
     providers: [
         Credentials({
