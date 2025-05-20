@@ -12,7 +12,7 @@ export async function POST(req) {
             });
         }
 
-        //mapping through the cart items and return an object representing strip line items
+        //mapping through the cart items and return an object representing strip line items 
         const line_items = body.cartItems.map((item) => ({
             price_data: {
                 currency: 'cad',
