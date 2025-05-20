@@ -23,7 +23,7 @@ function SignUp() {
             phonenumber: formData.phonenumber,
         };
         console.log(user);
-        const res = await fetch('/api/signup', {
+        const res = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user),
@@ -84,7 +84,6 @@ function SignUp() {
                                 value={phonenumber}
                                 onChange={(e) => setPhonenumber(e.target.value)}
                                 inputMode="numeric"
-                                // pattern="[\d()+-]{10,15}"
                                 placeholder="Phone Number"
                                 required
                                 className="rounded-lg border border-gray-300 px-3 py-4"
