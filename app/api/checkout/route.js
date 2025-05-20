@@ -10,7 +10,7 @@ export async function POST(req) {
             return new Response(JSON.stringify({ error: 'Invalid cart data' }), {
                 status: 400,
             });
-        }
+        } 
 
         //mapping through the cart items and return an object representing strip line items 
         const line_items = body.cartItems.map((item) => ({
