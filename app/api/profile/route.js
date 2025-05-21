@@ -5,7 +5,6 @@ export async function POST(request) {
         const body = await request.json();
         const { fullname, email, phonenumber } = body;
 
-
         const client = await clientPromise;
         const db = client.db(process.env.MONGODB_NAME);
         const users = db.collection('users');
@@ -13,16 +12,13 @@ export async function POST(request) {
         await users.findOneAndUpdate(
             { email },
             { $set: { fullname, phonenumber } },
-            { upsert: true }
+            { upsert: true },
         );
 
-        return new Response(
-            JSON.stringify({ message: `Updated profile successfully` }),
-            {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' },
-            },
-        );
+        return new Response(JSON.stringify({ message: `Updated profile successfully` }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
     } catch (error) {
         console.error('Error updating profile:', error);
         return new Response(JSON.stringify({ error: error }), {

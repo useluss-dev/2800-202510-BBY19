@@ -1,7 +1,8 @@
-import { FaListUl, FaRegHeart } from "react-icons/fa";
+import { FaListUl, FaRegHeart } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Profile = () => {
     const searchParams = useSearchParams();
@@ -36,7 +37,7 @@ const Profile = () => {
                 setOriginal({
                     fullname: data.fullname || '',
                     email: data.email || '',
-                    phonenumber: data.phonenumber || ''
+                    phonenumber: data.phonenumber || '',
                 });
             } catch (error) {
                 console.error('Failed to load profile:', error);
@@ -54,7 +55,7 @@ const Profile = () => {
         const updatedUser = {
             fullname,
             email,
-            phonenumber
+            phonenumber,
         };
         console.log(updatedUser);
         const res = await fetch('/api/profile', {
@@ -65,7 +66,6 @@ const Profile = () => {
         const data = await res.json();
         alert(data.message || data.error || 'No response message');
         setHasSaved(true);
-        
     };
 
     // Determine if inputs have changed
@@ -75,44 +75,47 @@ const Profile = () => {
         phonenumber !== original.phonenumber;
 
     if (!user) {
-        return <div className="text-center mt-10 text-gray-400">Loading profile...</div>;
+        return <div className="mt-10 text-center text-gray-400">Loading profile...</div>;
     }
 
     return (
-        <div className="max-w-6xl mx-5 p-10 xl:mx-auto">
+        <div className="mx-5 max-w-6xl p-10 xl:mx-auto">
             <div className="grid grid-cols-4 gap-4">
                 <div className="avatar">
-                    <div className="rounded-full w-[120px] h-28 bg-[#6d7275] flex items-center justify-center">
-                        <img src="/placeholder.png" />
+                    <div className="flex h-28 w-[120px] items-center justify-center rounded-full bg-[#6d7275]">
+                        <Image src="/placeholder.png" alt="placeholder" />
                     </div>
                 </div>
                 <div className="col-span-3">
-                    <p className="text-gray-400 text-2xl mr-2">Account Details:</p>
-                    
-                    <div className="pt-3 flex flex-col">
-                        <form onSubmit={handleSubmit} className="flex flex-col space-y-4 lg:space-y-3">
+                    <p className="mr-2 text-2xl text-gray-400">Account Details:</p>
+
+                    <div className="flex flex-col pt-3">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col space-y-4 lg:space-y-3"
+                        >
                             <input
                                 type="text"
-                                className="text-lg font-semibold text-gray-700 mr-2"
+                                className="mr-2 text-lg font-semibold text-gray-700"
                                 value={fullname}
                                 onChange={(e) => setFullname(e.target.value)}
                             />
                             <input
                                 type="text"
-                                className="text-lg font-semibold text-gray-700 mr-2"
+                                className="mr-2 text-lg font-semibold text-gray-700"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <input
                                 type="text"
-                                className="text-lg font-semibold text-gray-700 mr-2"
+                                className="mr-2 text-lg font-semibold text-gray-700"
                                 value={phonenumber}
                                 onChange={(e) => setPhonenumber(e.target.value)}
                             />
                             {isChanged && !hasSaved && (
                                 <button
                                     type="submit"
-                                    className="mt-4 w-fit px-4 py-2 bg-[#F55266] text-white rounded hover:bg-[#d64456]"
+                                    className="mt-4 w-fit rounded bg-[#F55266] px-4 py-2 text-white hover:bg-[#d64456]"
                                 >
                                     Save Changes
                                 </button>
@@ -123,12 +126,12 @@ const Profile = () => {
             </div>
 
             <hr className="border-grey-500 mt-6" />
-            <div className="flex justify-center gap-20 mt-[1.5px]">
-                <button className="border-t border-gray-800 py-8 text-sm font-semibold flex gap-1 items-center text-gray-500 hover:text-white">
+            <div className="mt-[1.5px] flex justify-center gap-20">
+                <button className="flex items-center gap-1 border-t border-gray-800 py-8 text-sm font-semibold text-gray-500 hover:text-white">
                     <FaListUl /> Your listings
                 </button>
                 <Link href={`/wishlist?email=${email}`}>
-                    <button className="border-t border-gray-800 py-8 text-sm font-semibold flex gap-1 items-center text-gray-500 hover:text-white">
+                    <button className="flex items-center gap-1 border-t border-gray-800 py-8 text-sm font-semibold text-gray-500 hover:text-white">
                         <FaRegHeart /> Wishlist
                     </button>
                 </Link>

@@ -1,11 +1,15 @@
 'use client';
-import Profile from "../components/Profile"
-import React from "react";
+import Profile from '../components/Profile';
+import React, { Suspense } from 'react';
 
-export default function home() {
+export default function ProfilePage() {
     return (
-        <div className="h-screen flex">
-            <Profile />
-        </div>
-    )
+        <Suspense
+            fallback={<div className="mt-10 text-center text-gray-400">Loading profile...</div>}
+        >
+            <div className="flex h-screen">
+                <Profile />
+            </div>
+        </Suspense>
+    );
 }
