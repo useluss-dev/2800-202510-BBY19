@@ -6,6 +6,24 @@ import SidebarFilter from '../components/SidebarFilter';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import PropTypes from 'prop-types';
 
+function SearchQueryHandler({ setFilters }) {
+    const searchParams = useSearchParams();
+    const searchQuery = searchParams.get('search') || '';
+
+    useEffect(() => {
+        setFilters((prev) => ({
+            ...prev,
+            searchTerm: decodeURIComponent(searchQuery),
+        }));
+    }, [searchQuery, setFilters]);
+
+    return null;
+}
+
+SearchQueryHandler.propTypes = {
+    setFilters: PropTypes.func.isRequired,
+};
+
 function CategoryQueryHandler({ setFilters }) {
     const searchParams = useSearchParams();
     const categoryQuery = searchParams.get('category');
@@ -36,6 +54,7 @@ function Page() {
     const [filters, setFilters] = useState({
         category: [],
         priceRange: [0, 2000],
+        searchTerm: '',
     });
 
     //hook to fetch listings and categories from API and set them in state
@@ -81,6 +100,17 @@ function Page() {
             (item) => item.price >= filters.priceRange[0] && item.price <= filters.priceRange[1],
         );
 
+        if (filters.searchTerm) {
+            const q = filters.searchTerm.toLowerCase();
+            console.log('here');
+            result = result.filter((item) => item.name.toLowerCase().includes(q));
+            // result = result.filter(
+            //     (item) =>
+            //         item.name.toLowerCase().includes(q) ||
+            //         (item.description || '').toLowerCase().includes(q),
+            // );
+        }
+
         //sort listings based on rating or price
         result.sort((a, b) => {
             if (sortBy === 'price-asc') return a.price - b.price;
@@ -111,6 +141,7 @@ function Page() {
 
             <Suspense fallback={null}>
                 <CategoryQueryHandler setFilters={setFilters} />
+                <SearchQueryHandler setFilters={setFilters} />
             </Suspense>
 
             <SidebarFilter
