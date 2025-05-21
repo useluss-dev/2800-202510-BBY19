@@ -1,18 +1,30 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import loginImage from '../assets/images/login.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 function Login() {
+    const router = useRouter();
+    const { data: session, status } = useSession();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
-    const router = useRouter();
+
+    // Redirect as soon as we're authenticated
+    useEffect(() => {
+        if (status === 'authenticated') {
+            console.log('Logged in with:');
+            console.log('email:', session.user.email);
+            console.log('name: ', session.user.name);
+            console.log('id:   ', session.user.id);
+            router.push('/profile');
+        }
+    }, [status, session, router]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,9 +36,7 @@ function Login() {
             password,
         });
 
-        if (res.ok) {
-            router.push('/profile');
-        } else {
+        if (!res.ok) {
             setError('Invalid email or password');
             console.log(error);
         }

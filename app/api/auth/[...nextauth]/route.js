@@ -1,11 +1,11 @@
 import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import clientPromise from '../../../lib/mongodb';
 import { compare } from 'bcrypt';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import clientPromise from '../../../lib/mongodb';
 
-const handler = NextAuth({
+export const authOptions = {
     providers: [
-        Credentials({
+        CredentialsProvider({
             name: 'Credentials',
             credentials: {
                 email: { label: 'Email', type: 'email' },
@@ -20,9 +20,11 @@ const handler = NextAuth({
                     throw new Error('Invalid email or password');
                 }
 
-                // eslint-disable-next-line
-                const { password, ...userWithoutPassword } = user;
-                return userWithoutPassword;
+                return {
+                    email: user.email,
+                    id: user._id.toHexString(),
+                    name: user.fullname,
+                };
             },
         }),
     ],
@@ -33,6 +35,27 @@ const handler = NextAuth({
         signIn: '/login',
     },
     secret: process.env.NEXTAUTH_SECRET,
-});
+    callbacks: {
+        // When a JWT is created (at sign‑in) or updated
+        async jwt({ token, user }) {
+            // `user` is only defined on first sign‑in
+            if (user) {
+                token.id = user.id;
+                token.name = user.name;
+                token.email = user.email;
+            }
+            return token;
+        },
+        // Whenever a session is checked
+        async session({ session, token }) {
+            // Copy our properties from the token into session.user
+            session.user.id = token.id;
+            session.user.name = token.name;
+            session.user.email = token.email;
+            return session;
+        },
+    },
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
