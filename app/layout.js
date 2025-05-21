@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import LayoutWrapper from './components/LayoutWrapper';
-import { CartProvider } from './context/CartContext';
 import { ToastContainer } from 'react-toastify';
 import Providers from './providers';
 
