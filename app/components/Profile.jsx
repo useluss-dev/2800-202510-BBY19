@@ -17,7 +17,6 @@ const Profile = () => {
 
     // Original values for comparison
     const [original, setOriginal] = useState({ fullname: '', email: '', phonenumber: '' });
-    let isSaved = false;
     useEffect(() => {
         async function loadProfile() {
             try {
