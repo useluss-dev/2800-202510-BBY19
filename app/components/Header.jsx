@@ -10,6 +10,7 @@ import ReComputeLogo from '../assets/images/ReCompute.png';
 import CategoryDropdown from './CategoryDropdown';
 import { CiSearch } from 'react-icons/ci';
 import { useCart } from '../context/CartContext';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
     const navItems = [
@@ -23,6 +24,16 @@ export default function Header() {
 
     const { cartItems } = useCart();
     const cartLength = cartItems.length;
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const router = useRouter();
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        const q = searchTerm.trim();
+        // Navigate to shop?search=..., or just /shop if empty
+        router.push(q ? `/shop?search=${encodeURIComponent(q)}` : '/shop');
+    };
 
     return (
         <header className="relative z-50 bg-[#232933] text-white">
@@ -55,16 +66,23 @@ export default function Header() {
                     <span className="text-xl font-bold">ReCompute</span>
                 </Link>
                 {/* search input for desktop */}
-                <div className="mx-6 hidden flex-1 lg:block">
+                <form
+                    onSubmit={handleSearchSubmit}
+                    className="mx-6 hidden flex-1 lg:block"
+                    role="search"
+                >
                     <div className="relative w-full">
                         <CiSearch className="absolute top-1/2 left-3 -translate-y-1/2 transform text-xl text-white" />
                         <input
+                            name="search"
                             type="text"
                             placeholder="Search..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full rounded-full border border-white bg-gray-700 py-2 pr-4 pl-10 text-white placeholder-gray-400 focus:outline-none"
                         />
                     </div>
-                </div>
+                </form>
                 {/* navigation icons */}
                 <div className="flex items-center space-x-2">
                     <Link href="/wishlist">
