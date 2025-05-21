@@ -3,13 +3,17 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Chat from '../../components/Chat';
 import { IoMdContacts } from 'react-icons/io';
+import { useSearchParams } from 'next/navigation';
 
 function ListingDetails() {
     const [showChat, setShowChat] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
-    const userId = 'u123';
-    const sellerId = 's456';
-    const sellerName = 'John Doe';
+    // const sellerId = 'seller123';
+    const chatUserName = 'John Doe';
+    
+   const searchParams = useSearchParams();
+   const userId = searchParams.get('user') || 'user1'; // current user
+   const sellerId = searchParams.get('seller') || 'seller123'; 
 
     return (
         <div>
@@ -67,12 +71,12 @@ function ListingDetails() {
 
                 <div className="fixed right-6 bottom-4 z-50">
                     {showChat ? (
-                        <div className="w-[350px] max-w-[90%] rounded-md border bg-white shadow-lg">
+                        <div className="w-[350px] max-w-[90%] rounded-lg border border-gray-500 bg-white shadow-lg">
                             <div
                                 onClick={() => setCollapsed(!collapsed)}
                                 className="flex cursor-pointer items-center justify-between rounded-t-md bg-gray-800 p-3 text-white"
                             >
-                                <span className="font-semibold">{sellerName}</span>
+                                <span className="font-semibold">{chatUserName}</span>
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -84,7 +88,9 @@ function ListingDetails() {
                                 </button>
                             </div>
 
-                            {!collapsed && <Chat userId={userId} sellerId={sellerId} />}
+                            {!collapsed && (
+                                <Chat userId={userId} sellerId={sellerId} chatUserName={chatUserName} />
+                            )}
                         </div>
                     ) : (
                         <button
