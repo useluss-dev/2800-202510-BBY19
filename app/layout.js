@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import LayoutWrapper from './components/LayoutWrapper';
-import { CartProvider } from './context/CartContext';
+import ClientWrapper from './components/ClientWrapper';
 import { ToastContainer } from 'react-toastify';
 
 const geistSans = Geist({
@@ -25,9 +25,9 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                <CartProvider>
+                <ClientWrapper>
                     <LayoutWrapper>{children}</LayoutWrapper>
-                </CartProvider>
+                </ClientWrapper>
                 <ToastContainer position="top-right" autoClose={3000} />
             </body>
         </html>
