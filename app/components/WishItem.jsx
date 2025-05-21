@@ -51,7 +51,6 @@ function WishItem({ image, name, price, rating, reviews, prod, images }) {
             <div className="flex gap-2">
                 {/* Remove Button */}
                 <button
-                    onClick={() => remove(item.id)}
                     className="text-xl text-[#F55266] hover:cursor-pointer"
                     title="Remove"
                 >
