@@ -126,6 +126,7 @@ ListingDetails.propTypes = {
     posterName: PropTypes.string.isRequired,
     listing: PropTypes.shape({
         name: PropTypes.string,
+        description: PropTypes.string,
         price: PropTypes.number,
         condition: PropTypes.string,
         reviews: PropTypes.number,
