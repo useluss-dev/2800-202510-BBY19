@@ -85,8 +85,8 @@ function Profile() {
         <div className="mx-5 max-w-6xl p-10 xl:mx-auto">
             <div className="grid grid-cols-4 gap-4">
                 <div className="avatar">
-                    <div className="flex h-28 w-[120px] items-center justify-center rounded-full bg-[#6d7275]">
-                        {/* <Image src="/placeholder.png" alt="placeholder" /> */}
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-200 text-lg font-bold text-white">
+                        {fullname.charAt(0)}
                     </div>
                 </div>
                 <div className="col-span-3">

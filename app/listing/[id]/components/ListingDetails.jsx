@@ -27,7 +27,7 @@ export default function ListingDetails({ listing, posterName }) {
         <div>
             <div className="flex items-start space-y-3 space-x-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-200 text-lg font-bold text-white">
-                    icon
+                    {posterName.charAt(0)}
                 </div>
                 <div>
                     <div className="font-semibold">
