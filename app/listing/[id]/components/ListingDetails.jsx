@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-function ListingDetails() {
+function ListingDetails({ listing, posterName }) {
     return (
         <div>
             {/* Seller info */}
@@ -11,10 +11,12 @@ function ListingDetails() {
                 </div>
                 <div>
                     <div className="font-semibold">
-                        name<span className="text-gray-500">(num reviews)</span>
+                        {posterName}
+                        <span className="text-gray-500"> ({listing.reviews || 0})</span>
                     </div>
                     <div className="space-x-2 text-sm text-white">
                         <Link href="#" className="underline hover:text-[#F55266]">
+                            {listing.rating}
                             <span className="font-bold">%</span> of positive ratings
                         </Link>
                         <span>·</span>
@@ -30,7 +32,7 @@ function ListingDetails() {
             {/* Title and price */}
             <h1 className="py-6 text-5xl font-extrabold">Item Name</h1>
             <div className="py-6">
-                <p className="text-4xl font-bold">$175.00</p>
+                <p className="text-4xl font-bold">${listing.price}</p>
                 <p className="text-md text-gray-500">or Best Offer</p>
             </div>
 
@@ -39,7 +41,7 @@ function ListingDetails() {
             {/* Condition */}
             <div className="py-6 text-sm">
                 <span className="font-semibold">Condition:</span>{' '}
-                <span className="font-bold text-gray-500">For parts or not working</span>
+                <span className="font-bold text-gray-500">{listing.condition}</span>
             </div>
 
             {/* Buttons */}

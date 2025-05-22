@@ -33,7 +33,7 @@ export async function POST(req) {
         const listingWithTimestamp = {
             ...body,
             timestamp: Date.now(),
-            rating: '0%',
+            rating: 0,
             reviews: 0,
         };
 

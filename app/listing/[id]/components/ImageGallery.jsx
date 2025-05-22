@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-function ImageGallery() {
-    const images = ['/gpu.png', '/headphones.png', '/rasp.png'];
+function ImageGallery({ images }) {
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
     return (
