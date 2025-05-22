@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { toast } from 'react-toastify';
-import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
