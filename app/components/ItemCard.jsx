@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 
+
+
 function ItemCard({ image, name, price, rating, reviews, prod, images }) {
     const ratingValue = (parseFloat(rating) / 100) * 5;
     const fullStars = Math.floor(ratingValue);
@@ -21,20 +23,25 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
 
     return (
         <section className="flex flex-col">
-            <div className="relative h-64 w-full overflow-hidden rounded-3xl">
-                <Image src={cardImage} alt="image" fill className="" />
-            </div>
+            <button onClick={() => {
+                localStorage.setItem('itemData',JSON.stringify({id: prod.id || prod._id}))
+                window.location.href = '/listing'
+            }}>
+                <div className="relative h-64 w-full overflow-hidden rounded-3xl">
+                    <Image src={cardImage} alt="image" fill className="" />
+                </div>
 
-            <div className="flex items-center gap-1 pt-2 pl-2">
-                {[...Array(fullStars)].map((_, i) => (
-                    <FaStar key={`full-${i}`} className="text-orange-400" />
-                ))}
-                {hasHalfStar && <FaStarHalfAlt className="text-orange-400" />}
-                {[...Array(emptyStars)].map((_, i) => (
-                    <FaRegStar key={`empty-${i}`} className="text-orange-400" />
-                ))}
-                <span className="ml-1 text-sm text-gray-400">{reviews}</span>
-            </div>
+                <div className="flex items-center gap-1 pt-2 pl-2">
+                    {[...Array(fullStars)].map((_, i) => (
+                        <FaStar key={`full-${i}`} className="text-orange-400" />
+                    ))}
+                    {hasHalfStar && <FaStarHalfAlt className="text-orange-400" />}
+                    {[...Array(emptyStars)].map((_, i) => (
+                        <FaRegStar key={`empty-${i}`} className="text-orange-400" />
+                    ))}
+                    <span className="ml-1 text-sm text-gray-400">{reviews}</span>
+                </div>
+            </button>
 
             <p className="pl-2">{name}</p>
             <div className="flex items-center justify-between px-2">
@@ -63,5 +70,7 @@ ItemCard.propTypes = {
     prod: PropTypes.object.isRequired,
     images: PropTypes.object.isRequired,
 };
+
+
 
 export default ItemCard;
