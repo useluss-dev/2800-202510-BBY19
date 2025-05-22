@@ -2,6 +2,8 @@ import React from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { useCart } from '../context/CartContext';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 function OrderSummary({ cartTotalPrice, cartLength }) {
     const { cartItems } = useCart();
@@ -23,6 +25,9 @@ function OrderSummary({ cartTotalPrice, cartLength }) {
             alert('Failed to initiate checkout');
         }
     };
+
+    const { data: session } = useSession();
+
     return (
         <div className="mx-6 mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-gray-500 bg-[#232933] p-4 lg:h-fit lg:w-2/3">
             <h1 className="w-full border-b-1 border-gray-500 pb-4 text-center text-xl font-bold">
@@ -50,10 +55,22 @@ function OrderSummary({ cartTotalPrice, cartLength }) {
             </div>
 
             <div className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#F55266] py-3 font-semibold text-white hover:bg-[#f55265c8]">
-                <button onClick={handleCheckout} className="flex items-center justify-center gap-2">
-                    Proceed to checkout
-                    <MdKeyboardArrowRight />
-                </button>
+                {session?.user ? (
+                    <button
+                        onClick={handleCheckout}
+                        className="flex items-center justify-center gap-2"
+                    >
+                        Proceed to checkout
+                        <MdKeyboardArrowRight />
+                    </button>
+                ) : (
+                    <Link href="/login">
+                        <button className="flex items-center justify-center gap-2">
+                            Login to Checkout
+                            <MdKeyboardArrowRight />
+                        </button>
+                    </Link>
+                )}
             </div>
         </div>
     );
