@@ -35,6 +35,7 @@ function NewArrivals() {
                                 rating={item.rating}
                                 reviews={item.reviews}
                                 images={item.images}
+                                prod={item}
                             />
                         </div>
                     ))}
