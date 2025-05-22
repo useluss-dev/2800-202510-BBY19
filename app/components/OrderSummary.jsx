@@ -29,7 +29,7 @@ function OrderSummary({ cartTotalPrice, cartLength }) {
     const { data: session } = useSession();
 
     return (
-        <div className="mx-6 mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-gray-500 bg-[#232933] p-4 lg:h-fit lg:w-2/3">
+        <div className="mx-6 mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-gray-500 bg-[#232933] p-4 lg:h-fit lg:w-2/3 lg:mx-0 lg:ml-6">
             <h1 className="w-full border-b-1 border-gray-500 pb-4 text-center text-xl font-bold">
                 Order Summary
             </h1>

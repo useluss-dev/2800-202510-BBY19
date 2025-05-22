@@ -33,8 +33,8 @@ function Cart() {
     const itemsInCart = cartItems.length;
 
     return (
-        <div className="min-h-[calc(100vh-92px-263px)] lg:min-h-[calc(100vh-140px-263px)]">
-            <div className="p-6">
+        <div className="min-h-[calc(100vh-92px-263px)] lg:min-h-[calc(100vh-140px-263px)] lg:mx-auto lg:max-w-7xl">
+            <div className="p-6 lg:p-0 lg:py-6 lg:pl-6">
                 <h1 className="mb-4 text-2xl font-bold">Shopping cart</h1>
 
                 {itemsInCart === 0 ? (

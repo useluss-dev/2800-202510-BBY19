@@ -29,31 +29,40 @@ export default function Footer() {
     }, []);
 
     return (
-        <div className="flex flex-col px-4">
-            <div className="flex items-center text-xl font-bold">
-                <Image src={Logo} width={75} height={75} alt="Logo" />
-                ReCompute
-            </div>
-            <div className="">
-                <Link className="flex w-3 p-4 lg:hover:text-gray-400" href="/profile">
-                    <h3 className="text-lg font-semibold">Profile</h3>
-                </Link>
-                {geo?.city && (
-                    <p className="px-4 pb-4 text-lg font-semibold text-gray-300">
-                        You&apos;re browsing from {geo.city}, {geo.country}
-                    </p>
-                )}
-                <div className="flex flex-row justify-center gap-6 border-t-2 border-gray-700 p-4 md:justify-center">
-                    <Image src="/visa.png" width={50} height={50} alt="Visa" />
-                    <Image src="/mastercard.png" width={50} height={50} alt="Mastercard" />
-                    <Image src="/gPay.png" width={50} height={50} alt="Google Pay" />
-                    <Image
-                        src="/aPay.png"
-                        width={50}
-                        height={50}
-                        alt="Apple Pay"
-                        className="invert"
-                    />
+        <div className="border-t-2 border-gray-700 pt-4">
+            <div className="w-full">
+                <div className="mx-auto w-full max-w-7xl px-4">
+                    <div className="flex items-center justify-start text-lg font-bold">
+                        <Image src={Logo} width={60} height={60} alt="Logo" />
+                        <span>ReCompute</span>
+                    </div>
+
+                    <div>
+                        <Link className="flex w-3 p-4 lg:hover:text-gray-400" href="/profile">
+                            <h3 className=" font-semibold">Profile</h3>
+                        </Link>
+
+                        {geo?.city && (
+                            <p className="px-4 pb-4 font-semibold text-gray-300">
+                                You&apos;re browsing from {geo.city}, {geo.country}
+                            </p>
+                        )}
+                    </div>
+                </div>
+
+                <div className="mx-auto max-w-7xl px-4">
+                    <div className="flex justify-center gap-6 pb-6">
+                        <Image src="/visa.png" width={50} height={50} alt="Visa" />
+                        <Image src="/mastercard.png" width={50} height={50} alt="Mastercard" />
+                        <Image src="/gPay.png" width={50} height={50} alt="Google Pay" />
+                        <Image
+                            src="/aPay.png"
+                            width={50}
+                            height={50}
+                            alt="Apple Pay"
+                            className="invert"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
