@@ -37,6 +37,7 @@ export default function Header() {
     };
 
     const { data: session, status } = useSession();
+    const profileLink = status === 'authenticated' ? '/profile' : '/login';
 
     return (
         <header className="relative z-50 bg-[#232933] text-white">
@@ -93,7 +94,7 @@ export default function Header() {
                             <Image src={wishlist} width={24} height={24} alt="Wishlist" />
                         </button>
                     </Link>
-                    <Link href="/profile">
+                    <Link href={profileLink}>
                         <button className="rounded-full p-1 invert hover:bg-[#0AAD99]">
                             <Image src={user} width={24} height={24} alt="Profile" />
                         </button>
