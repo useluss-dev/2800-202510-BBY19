@@ -11,6 +11,7 @@ import CategoryDropdown from './CategoryDropdown';
 import { CiSearch } from 'react-icons/ci';
 import { useCart } from '../context/CartContext';
 import { useRouter } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 
 export default function Header() {
     const navItems = [
@@ -34,6 +35,8 @@ export default function Header() {
         // Navigate to shop?search=..., or just /shop if empty
         router.push(q ? `/shop?search=${encodeURIComponent(q)}` : '/shop');
     };
+
+    const { data: session, status } = useSession();
 
     return (
         <header className="relative z-50 bg-[#232933] text-white">
@@ -108,7 +111,7 @@ export default function Header() {
 
             {/* desktop navigation view */}
             <nav>
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
                     <ul className="hidden h-12 items-center space-x-6 text-sm lg:flex">
                         <li className="w-1/5">
                             <CategoryDropdown />
@@ -121,6 +124,21 @@ export default function Header() {
                             </Link>
                         ))}
                     </ul>
+                    <div className="hidden items-center gap-4 lg:flex lg:justify-center">
+                        {status === 'authenticated' && (
+                            <>
+                                <span className="font-semibold">
+                                    {session.user?.name?.split(' ')[0]}
+                                </span>
+                                <button
+                                    onClick={() => signOut({ callbackUrl: '/login' })}
+                                    className="rounded-full bg-red-500 px-3 py-1 font-semibold hover:bg-red-600"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </nav>
 
@@ -153,6 +171,20 @@ export default function Header() {
                             </div>
                         </Link>
                     ))}
+                </div>
+                <div className="px-4">
+                    {status === 'authenticated' ? (
+                        <div className="mx-4">
+                            <button
+                                onClick={() => signOut({ callbackUrl: '/login' })}
+                                className="rounded-full bg-red-500 px-8 py-2 text-sm hover:bg-red-600"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         </header>
