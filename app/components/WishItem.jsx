@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
+
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import {  useSession } from 'next-auth/react';
@@ -13,6 +14,8 @@ function WishItem({ image, name, price, rating, reviews, prod, images }) {
     const { addToCart } = useCart();
     const cardImage = images?.[0] || image;
     const { data: session} = useSession();
+    const [visible, setVisible] = useState(true);
+    
     const email = session.user.email;
 
     const normalizedProd = {
@@ -30,13 +33,12 @@ function WishItem({ image, name, price, rating, reviews, prod, images }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(deleteParameter),
         });
-
+        
         const data = await res.json();
         alert(data.message || data.error || 'No response message');
-        document.getElementById('wishItem').style.display = "none";
-        
+        setVisible(false);
     }
-
+    if (!visible) return null;
     return (
         <section id="wishItem" className="flex flex-col">
             {/* Image Section */}
