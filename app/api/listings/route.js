@@ -1,5 +1,4 @@
 import clientPromise from '../../lib/mongodb';
-import { ObjectId } from 'mongodb';
 
 export async function GET() {
     try {
@@ -36,7 +35,6 @@ export async function POST(req) {
             timestamp: Date.now(),
             rating: 0,
             reviews: 0,
-            sellerId: new ObjectId(body.sellerId),
         };
 
         const result = await db

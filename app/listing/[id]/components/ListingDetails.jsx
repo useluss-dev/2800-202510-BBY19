@@ -4,18 +4,14 @@ import Link from 'next/link';
 import { IoMdContacts } from 'react-icons/io';
 import Chat from '../../../components/Chat';
 import { useSession } from 'next-auth/react';
+import { useCart } from '../../../context/CartContext';
 import PropTypes from 'prop-types';
 
 export default function ListingDetails({ listing, posterName }) {
     const [showChat, setShowChat] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
-    // const sellerId = 'seller123';
-    // const chatUserName = 'John Doe';
 
-    // const searchParams = useSearchParams();
-    // const userId = searchParams.get('user') || 'user1'; // current user
-    // const sellerId = searchParams.get('seller') || 'seller123';
-
+    const { addToCart } = useCart();
     const { data: session, status } = useSession();
     if (status === 'loading') return null;
 
@@ -23,6 +19,20 @@ export default function ListingDetails({ listing, posterName }) {
     const posterId = listing?.posterId; // From DB
     const isOwnListing = userId === posterId;
 
+    const addtoWishList = async () => {
+        if (status === 'authenticated') {
+            let addParameter = { email: session.user.email, listingId: listing.id };
+            const res = await fetch('/api/wishlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(addParameter),
+            });
+            const data = await res.json();
+            alert(data.message || data.error || 'No response message');
+        } else {
+            alert('Please login to add listing to wishlist');
+        }
+    };
     return (
         <div>
             <div className="flex items-start space-y-3 space-x-3">
@@ -40,7 +50,10 @@ export default function ListingDetails({ listing, posterName }) {
                             <span className="font-bold">%</span> of positive ratings
                         </Link>
                         <span>·</span>
-                        <Link href="#" className="underline hover:text-[#F55266]">
+                        <Link
+                            href={`/seller/${posterId}`}
+                            className="underline hover:text-[#F55266]"
+                        >
                             Seller&apos;s page
                         </Link>
                     </div>
@@ -51,6 +64,7 @@ export default function ListingDetails({ listing, posterName }) {
 
             {/* Title and price */}
             <h1 className="py-6 text-5xl font-extrabold">{listing.name}</h1>
+            <p className="text-xl">{listing.description}</p>
             <div className="py-6">
                 <p className="text-4xl font-bold">${listing.price}</p>
                 <p className="text-md text-gray-500">or Best Offer</p>
@@ -66,10 +80,19 @@ export default function ListingDetails({ listing, posterName }) {
 
             {/* Buttons */}
             <div className="space-y-3">
-                <button className="w-full cursor-pointer rounded-full bg-[#F55266] py-3 font-semibold text-white transition hover:bg-[#f55265c8]">
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        addToCart(listing);
+                    }}
+                    className="w-full cursor-pointer rounded-full bg-[#F55266] py-3 font-semibold text-white transition hover:bg-[#f55265c8]"
+                >
                     Add to cart
                 </button>
-                <button className="w-full cursor-pointer rounded-full border-2 border-[#F55266] py-3 font-semibold text-white hover:bg-[#F55266]">
+                <button
+                    onClick={() => addtoWishList()}
+                    className="w-full cursor-pointer rounded-full border-2 border-[#F55266] py-3 font-semibold text-white hover:bg-[#F55266]"
+                >
                     Add to Wishlist
                 </button>
 
@@ -121,7 +144,9 @@ export default function ListingDetails({ listing, posterName }) {
 ListingDetails.propTypes = {
     posterName: PropTypes.string.isRequired,
     listing: PropTypes.shape({
+        id: PropTypes.string,
         name: PropTypes.string,
+        description: PropTypes.string,
         price: PropTypes.number,
         condition: PropTypes.string,
         reviews: PropTypes.number,
