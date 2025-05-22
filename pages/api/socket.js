@@ -1,9 +1,13 @@
 import { Server } from 'socket.io';
+import clientPromise from '../../app/lib/mongodb';
 
 let io;
-export default function handler(req, res) {
+export default async function handler(req, res) {
     if (!res.socket.server.io) {
-        console.log('Initializing server...');
+        console.log('[Socket.io] Initializing server...');
+
+        const client = await clientPromise;
+        const db = client.db(process.env.MONGODB_NAME);
 
         io = new Server(res.socket.server, {
             path: '/api/socket',
@@ -11,26 +15,30 @@ export default function handler(req, res) {
         });
 
         io.on('connection', (socket) => {
-            console.log('Client connected');
-
-            socket.on('disconnect', () => {
-                console.log('Client disconnected');
-            });
+            console.log('[Socket.io] Client connected');
 
             socket.on('joinRoom', (roomId) => {
-                console.log('Joining room:', roomId);
+                console.log(`[Socket.io] Joining room: ${roomId}`);
                 socket.join(roomId);
             });
 
-            socket.on('sendMessage', ({ roomId, message }) => {
-                console.log('Broadcasting to:', roomId, message);
+            socket.on('sendMessage', async ({ roomId, message }) => {
+                console.log('[Socket.io] Broadcasting to:', roomId, message);
                 io.to(roomId).emit('receiveMessage', message);
+
+                //save the message to mongo with (roomId, senderId, content, and timestamp)
+                await db.collection(process.env.MONGODB_COLLECTIONM).insertOne({
+                    roomId,
+                    ...message,
+                });
+
+                console.log('[Socket.io] Message saved to DB');
             });
         });
 
         res.socket.server.io = io;
     } else {
-        console.log('Server running');
+        console.log('[Socket.io] Server already running');
     }
 
     res.end();
