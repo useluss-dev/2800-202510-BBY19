@@ -3,8 +3,22 @@ import React, { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
 
 function CreateListing() {
+
+    const { data: session, status } = useSession();
+    const router = useRouter();
+
+    //redirect if not authenticated
+    if (status === 'loading') return null;
+    if (!session) {
+        router.push('/login');
+        return null;
+    }
+
     const [form, setForm] = useState({
         title: '',
         price: '',
@@ -48,6 +62,8 @@ function CreateListing() {
         }));
     };
 
+    const sellerId = session?.user?.id;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -57,7 +73,7 @@ function CreateListing() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify({ ...form, sellerId }),
             });
 
             const data = await res.json();
