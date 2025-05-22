@@ -15,9 +15,9 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
 
     const normalizedProd = {
         ...prod,
-        id: prod.id || prod._id,
+        id: prod._id,
         image: cardImage,
-        name: prod.name || prod.title,
+        name: prod.name,
     };
 
     return (
