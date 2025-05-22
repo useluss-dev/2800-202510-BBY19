@@ -1,13 +1,12 @@
 import { FaListUl, FaRegHeart } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 const Profile = () => {
-    const searchParams = useSearchParams();
-    const emailParameter = searchParams.get('email');
-
+    const { data: session, status } = useSession();
+    let emailParameter;
     const [user, setUser] = useState(null);
 
     // Current input values
@@ -16,11 +15,13 @@ const Profile = () => {
     const [phonenumber, setPhonenumber] = useState('');
     const [hasSaved, setHasSaved] = useState(false);
 
-    // Original values for comparison
     const [original, setOriginal] = useState({ fullname: '', email: '', phonenumber: '' });
+    const router = useRouter();
+
     useEffect(() => {
         async function loadProfile() {
             try {
+                emailParameter = session.user.email;
                 const currentPort = window.location.port || 3000;
                 const currentHost = window.location.hostname || 'localhost';
                 const currentProtocol = window.location.protocol || 'http:';
@@ -43,15 +44,20 @@ const Profile = () => {
                 console.error('Failed to load profile:', error);
             }
         }
-
-        if (emailParameter) {
+        if (status === 'authenticated') {
+            console.log('email:', session.user.email);
+            console.log('name: ', session.user.name);
+            console.log('id:   ', session.user.id);
             loadProfile();
+        } else {
+            console.log('Not authenticated');
+            router.push('/login')
         }
+
     }, [emailParameter]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Perform validation and send data to the backend
         const updatedUser = {
             fullname,
             email,
@@ -83,7 +89,7 @@ const Profile = () => {
             <div className="grid grid-cols-4 gap-4">
                 <div className="avatar">
                     <div className="flex h-28 w-[120px] items-center justify-center rounded-full bg-[#6d7275]">
-                        <Image src="/placeholder.png" alt="placeholder" />
+                        {/* <Image src="/placeholder.png" alt="placeholder" /> */}
                     </div>
                 </div>
                 <div className="col-span-3">
