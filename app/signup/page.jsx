@@ -5,15 +5,18 @@ import singupImage from '../assets/images/signup.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 function SignUp() {
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phonenumber, setPhonenumber] = useState('');
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         const formData = { fullname, email, password, phonenumber };
         // Perform validation and send data to the backend
         const user = {
@@ -31,6 +34,7 @@ function SignUp() {
 
         const data = await res.json();
         alert(data.message || data.error || 'No response message');
+        router.push("/");
     };
 
     return (

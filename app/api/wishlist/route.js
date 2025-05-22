@@ -1,12 +1,10 @@
 import clientPromise from "../../lib/mongodb";
+import { ObjectId } from 'mongodb';
 
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email');
 
-    // TODO: remove later
-    console.log('params ' + email);
-    
     try {
         const client = await clientPromise;
         const db = client.db(process.env.MONGODB_NAME);
@@ -14,8 +12,9 @@ export async function GET(request) {
         
         if (user) {
             const listingsCollection = db.collection("listings");
+            const wishlistObjectIds = user.wishlist.map(id => new ObjectId(id));
             const wishlistListings = await listingsCollection.find({
-                _id: { $in: user.wishlist }
+                _id: { $in: wishlistObjectIds}
             }).toArray();
             return new Response(JSON.stringify(wishlistListings), {
                 status: 200,
