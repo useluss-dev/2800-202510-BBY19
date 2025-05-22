@@ -10,7 +10,7 @@ export default function ListingDetails({ listing, posterName }) {
     const [showChat, setShowChat] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     // const sellerId = 'seller123';
-    const chatUserName = 'John Doe';
+    // const chatUserName = 'John Doe';
 
     // const searchParams = useSearchParams();
     // const userId = searchParams.get('user') || 'user1'; // current user
@@ -126,5 +126,6 @@ ListingDetails.propTypes = {
         condition: PropTypes.string,
         reviews: PropTypes.number,
         rating: PropTypes.string,
+        posterId: PropTypes.string,
     }).isRequired,
 };

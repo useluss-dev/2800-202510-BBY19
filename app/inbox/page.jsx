@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Chat from '../components/Chat';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -32,7 +32,7 @@ export default function Inbox() {
 
     if (status === 'loading') {
         return (
-            <div className="flex min-h-[calc(100vh-92px-263px)] items-center justify-center p-4 ">
+            <div className="flex min-h-[calc(100vh-92px-263px)] items-center justify-center p-4">
                 Loading session...
             </div>
         );
@@ -40,7 +40,7 @@ export default function Inbox() {
 
     if (status === 'unauthenticated') {
         return (
-            <div className="flex min-h-[calc(100vh-92px-263px)] flex-col items-center justify-center gap-4 p-4 ">
+            <div className="flex min-h-[calc(100vh-92px-263px)] flex-col items-center justify-center gap-4 p-4">
                 Please log in to view your messages.
                 <Link href="/login">
                     <button

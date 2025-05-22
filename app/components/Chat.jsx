@@ -1,6 +1,7 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getSocket } from '../lib/socket';
+import PropTypes from 'prop-types';
 
 export default function Chat({ userId, sellerId, chatUserName }) {
     const [messages, setMessages] = useState([]);
@@ -62,7 +63,7 @@ export default function Chat({ userId, sellerId, chatUserName }) {
             socket.off('receiveMessage');
             socket.off('connect');
         };
-    }, []);
+    }, [roomId, socket, userId]);
 
     const handleSend = () => {
         if (!input.trim()) return;
@@ -129,3 +130,9 @@ export default function Chat({ userId, sellerId, chatUserName }) {
         </div>
     );
 }
+
+Chat.propTypes = {
+    userId: PropTypes.string.isRequired,
+    sellerId: PropTypes.string.isRequired,
+    chatUserName: PropTypes.string.isRequired,
+};
