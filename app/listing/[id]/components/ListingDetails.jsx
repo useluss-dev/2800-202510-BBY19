@@ -144,6 +144,7 @@ export default function ListingDetails({ listing, posterName }) {
 ListingDetails.propTypes = {
     posterName: PropTypes.string.isRequired,
     listing: PropTypes.shape({
+        id: PropTypes.string,
         name: PropTypes.string,
         description: PropTypes.string,
         price: PropTypes.number,
