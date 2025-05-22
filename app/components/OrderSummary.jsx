@@ -26,7 +26,7 @@ function OrderSummary({ cartTotalPrice, cartLength }) {
         }
     };
 
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     return (
         <div className="mx-6 mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-gray-500 bg-[#232933] p-4 lg:h-fit lg:w-2/3">
