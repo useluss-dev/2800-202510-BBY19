@@ -16,6 +16,7 @@ export default async function ListingPage({ params: { id } }) {
     const listingForClient = {
         id: rawListing._id.toString(),
         name: rawListing.name,
+        description: rawListing.description,
         price: rawListing.price,
         condition: rawListing.condition,
         reviews: rawListing.reviews,
