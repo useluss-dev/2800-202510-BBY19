@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { IoMdContacts } from 'react-icons/io';
-import Chat from "../../../components/Chat"
+import Chat from '../../../components/Chat';
+import { useSession } from 'next-auth/react';
 import PropTypes from 'prop-types';
 
 export default function ListingDetails({ listing, posterName }) {
@@ -13,7 +14,14 @@ export default function ListingDetails({ listing, posterName }) {
 
     // const searchParams = useSearchParams();
     // const userId = searchParams.get('user') || 'user1'; // current user
-    // const sellerId = searchParams.get('seller') || 'seller123'; 
+    // const sellerId = searchParams.get('seller') || 'seller123';
+
+    const { data: session, status } = useSession();
+    if (status === 'loading') return null;
+
+    const userId = session?.user?.id; // Logged-in user
+    const posterId = listing?.posterId; // From DB
+    const isOwnListing = userId === posterId;
 
     return (
         <div>
@@ -66,35 +74,43 @@ export default function ListingDetails({ listing, posterName }) {
                 </button>
 
                 <div className="fixed right-6 bottom-4 z-50">
-                    {showChat ? (
-                        <div className="w-[350px] max-w-[90%] rounded-lg border border-gray-500 bg-white shadow-lg">
-                            <div
-                                onClick={() => setCollapsed(!collapsed)}
-                                className="flex cursor-pointer items-center justify-between rounded-t-md bg-gray-800 p-3 text-white"
-                            >
-                                <span className="font-semibold">{chatUserName}</span>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setShowChat(false);
-                                    }}
-                                    className="text-2xl text-white hover:text-red-400"
-                                >
-                                    ×
-                                </button>
-                            </div>
+                    {!isOwnListing && (
+                        <div className="fixed right-6 bottom-4 z-50">
+                            {showChat ? (
+                                <div className="w-[350px] max-w-[90%] rounded-lg border border-gray-500 bg-white shadow-lg">
+                                    <div
+                                        onClick={() => setCollapsed(!collapsed)}
+                                        className="flex cursor-pointer items-center justify-between rounded-t-md bg-gray-800 p-3 text-white"
+                                    >
+                                        <span className="font-semibold">{posterName}</span>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setShowChat(false);
+                                            }}
+                                            className="text-2xl text-white hover:text-red-400"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
 
-                            {!collapsed && (
-                                <Chat userId={userId} sellerId={sellerId} chatUserName={chatUserName} />
+                                    {!collapsed && (
+                                        <Chat
+                                            userId={userId}
+                                            sellerId={posterId}
+                                            chatUserName={posterName}
+                                        />
+                                    )}
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={() => setShowChat(true)}
+                                    className="flex items-center gap-2 rounded-full bg-[#F55266] px-4 py-2 font-bold text-white shadow hover:bg-[#e04858]"
+                                >
+                                    <IoMdContacts /> Contact Seller
+                                </button>
                             )}
                         </div>
-                    ) : (
-                        <button
-                            onClick={() => setShowChat(true)}
-                            className="flex items-center gap-2 rounded-full bg-[#F55266] px-4 py-2 font-bold text-white shadow hover:bg-[#e04858]"
-                        >
-                            <IoMdContacts /> Contact Seller
-                        </button>
                     )}
                 </div>
             </div>
