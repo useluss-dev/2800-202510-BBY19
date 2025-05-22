@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
@@ -35,7 +36,7 @@ function WishItem({ image, name, price, rating, reviews, prod, images }) {
         });
         
         const data = await res.json();
-        alert(data.message || data.error || 'No response message');
+        toast.success(data.message || data.error || 'No response message');
         setVisible(false);
     }
     if (!visible) return null;
