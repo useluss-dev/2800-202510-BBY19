@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiInbox } from 'react-icons/fi';
 import wishlist from '../assets/icons/heart-svgrepo-com.svg';
 import user from '../assets/icons/person-outline-svgrepo-com.svg';
 import cart from '../assets/icons/cart-shopping-svgrepo-com.svg';
@@ -98,6 +98,13 @@ export default function Header() {
                             <Image src={user} width={24} height={24} alt="Profile" />
                         </button>
                     </Link>
+                    {status === 'authenticated' && (
+                        <Link href="/inbox">
+                            <button className="relative rounded-full p-1 invert hover:bg-[#0AAD99]">
+                                <FiInbox className="h-[24px] w-[24px] invert" />
+                            </button>
+                        </Link>
+                    )}
                     <Link href="/cart">
                         <button className="relative rounded-full p-1 invert hover:bg-[#0AAD99]">
                             <Image src={cart} width={24} height={24} alt="Cart" />

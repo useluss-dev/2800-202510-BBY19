@@ -66,6 +66,8 @@ function CreateListing() {
         }));
     };
 
+    const sellerId = session?.user?.id;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -75,7 +77,7 @@ function CreateListing() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify({ ...form, sellerId }),
             });
             const data = await res.json();
             if (res.ok && data.success && status === 'authenticated') {
@@ -249,8 +251,6 @@ function CreateListing() {
                                         <Image
                                             src={img}
                                             alt={`Preview ${index}`}
-                                            width={128}
-                                            height={128}
                                             className="h-32 w-full object-contain"
                                         />
                                     </div>
