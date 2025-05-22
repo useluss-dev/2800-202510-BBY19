@@ -1,23 +1,43 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 function CreateListing() {
+    const router = useRouter();
+    const { data: session, status } = useSession();
     const [form, setForm] = useState({
-        title: '',
-        price: '',
-        condition: '',
+        name: '',
         category: '',
-        description: '',
+        price: 0,
         brand: '',
+        stock: 1,
+        condition: '',
+        description: '',
         images: [],
+        posterId: '',
     });
+
+    // Populate posterId from the logged‑in user
+    useEffect(() => {
+        if (status === 'unauthenticated') {
+            router.push('/login');
+        }
+
+        if (status === 'authenticated') {
+            setForm((prev) => ({ ...prev, posterId: session.user.id }));
+        }
+    }, [session, status]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
+        setForm((prev) => ({
+            ...prev,
+            [name]: name === 'stock' || name === 'price' ? Number(value) : value,
+        }));
     };
 
     //this function uploads the img then converts it to base64 and sets it to the form
@@ -31,9 +51,7 @@ function CreateListing() {
                 reader.onerror = reject;
             });
         });
-
         const base64Images = await Promise.all(base64Promises);
-
         setForm((prev) => ({
             ...prev,
             images: [...prev.images, ...base64Images],
@@ -59,21 +77,21 @@ function CreateListing() {
                 },
                 body: JSON.stringify(form),
             });
-
             const data = await res.json();
-
-            if (res.ok && data.success) {
+            if (res.ok && data.success && status === 'authenticated') {
                 toast.success('Listing created successfully!');
 
                 //reset form
                 setForm({
-                    title: '',
-                    price: '',
-                    condition: '',
+                    name: '',
                     category: '',
-                    description: '',
+                    price: '',
                     brand: '',
+                    stock: 1,
+                    condition: '',
+                    description: '',
                     images: [],
+                    posterId: session.user.id,
                 });
             } else {
                 toast.error(`Failed to create listing: ${data.error}`);
@@ -91,14 +109,14 @@ function CreateListing() {
             <div className="md:flex md:justify-center">
                 <div className="rounded-lg bg-[#232933] p-12 shadow-md md:w-2/3 lg:w-1/2">
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Title */}
+                        {/* Name */}
                         <div>
                             <label className="mb-1 block text-xl font-bold">Title:</label>
                             <input
                                 type="text"
-                                name="title"
+                                name="name"
                                 className="w-full rounded border px-4 py-2"
-                                value={form.title}
+                                value={form.name}
                                 onChange={handleChange}
                                 required
                             />
@@ -125,6 +143,20 @@ function CreateListing() {
                                 name="price"
                                 className="w-full rounded border px-4 py-2"
                                 value={form.price}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        {/* Stock */}
+                        <div>
+                            <label className="mb-1 block text-xl font-bold">Stock:</label>
+                            <input
+                                type="number"
+                                name="stock"
+                                min={1}
+                                className="w-full rounded border px-4 py-2"
+                                value={form.stock}
                                 onChange={handleChange}
                                 required
                             />
@@ -217,6 +249,8 @@ function CreateListing() {
                                         <Image
                                             src={img}
                                             alt={`Preview ${index}`}
+                                            width={128}
+                                            height={128}
                                             className="h-32 w-full object-contain"
                                         />
                                     </div>
