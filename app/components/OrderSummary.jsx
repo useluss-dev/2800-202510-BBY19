@@ -23,7 +23,6 @@ function OrderSummary({ cartTotalPrice, cartLength }) {
             alert('Failed to initiate checkout');
         }
     };
-
     return (
         <div className="mx-6 mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-gray-500 bg-[#232933] p-4 lg:h-fit lg:w-2/3">
             <h1 className="w-full border-b-1 border-gray-500 pb-4 text-center text-xl font-bold">

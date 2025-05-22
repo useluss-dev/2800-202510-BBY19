@@ -10,6 +10,8 @@ import ReComputeLogo from '../assets/images/ReCompute.png';
 import CategoryDropdown from './CategoryDropdown';
 import { CiSearch } from 'react-icons/ci';
 import { useCart } from '../context/CartContext';
+import { useRouter } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 
 export default function Header() {
     const navItems = [
@@ -23,6 +25,18 @@ export default function Header() {
 
     const { cartItems } = useCart();
     const cartLength = cartItems.length;
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const router = useRouter();
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        const q = searchTerm.trim();
+        // Navigate to shop?search=..., or just /shop if empty
+        router.push(q ? `/shop?search=${encodeURIComponent(q)}` : '/shop');
+    };
+
+    const { data: session, status } = useSession();
 
     return (
         <header className="relative z-50 bg-[#232933] text-white">
@@ -55,16 +69,23 @@ export default function Header() {
                     <span className="text-xl font-bold">ReCompute</span>
                 </Link>
                 {/* search input for desktop */}
-                <div className="mx-6 hidden flex-1 lg:block">
+                <form
+                    onSubmit={handleSearchSubmit}
+                    className="mx-6 hidden flex-1 lg:block"
+                    role="search"
+                >
                     <div className="relative w-full">
                         <CiSearch className="absolute top-1/2 left-3 -translate-y-1/2 transform text-xl text-white" />
                         <input
+                            name="search"
                             type="text"
                             placeholder="Search..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full rounded-full border border-white bg-gray-700 py-2 pr-4 pl-10 text-white placeholder-gray-400 focus:outline-none"
                         />
                     </div>
-                </div>
+                </form>
                 {/* navigation icons */}
                 <div className="flex items-center space-x-2">
                     <Link href="/wishlist">
@@ -90,7 +111,7 @@ export default function Header() {
 
             {/* desktop navigation view */}
             <nav>
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
                     <ul className="hidden h-12 items-center space-x-6 text-sm lg:flex">
                         <li className="w-1/5">
                             <CategoryDropdown />
@@ -103,6 +124,21 @@ export default function Header() {
                             </Link>
                         ))}
                     </ul>
+                    <div className="hidden items-center gap-4 lg:flex lg:justify-center">
+                        {status === 'authenticated' && (
+                            <>
+                                <span className="font-semibold">
+                                    {session.user?.name?.split(' ')[0]}
+                                </span>
+                                <button
+                                    onClick={() => signOut({ callbackUrl: '/login' })}
+                                    className="rounded-full bg-red-500 px-3 py-1 font-semibold hover:bg-red-600"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </nav>
 
@@ -135,6 +171,20 @@ export default function Header() {
                             </div>
                         </Link>
                     ))}
+                </div>
+                <div className="px-4">
+                    {status === 'authenticated' ? (
+                        <div className="mx-4">
+                            <button
+                                onClick={() => signOut({ callbackUrl: '/login' })}
+                                className="rounded-full bg-red-500 px-8 py-2 text-sm hover:bg-red-600"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         </header>
