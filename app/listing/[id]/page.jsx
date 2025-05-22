@@ -13,6 +13,17 @@ export default async function ListingPage({ params: { id } }) {
         .collection(process.env.MONGODB_COLLECTIONL)
         .findOne({ _id: ObjectId.createFromHexString(id) });
 
+    const listingForClient = {
+        id: rawListing._id.toString(),
+        name: rawListing.name,
+        price: rawListing.price,
+        condition: rawListing.condition,
+        reviews: rawListing.reviews,
+        rating: rawListing.rating,
+        posterId: rawListing.posterId.toString(),
+        images: rawListing.images,
+    };
+
     if (!rawListing) {
         return <p>Listing not found</p>;
     }
@@ -22,22 +33,14 @@ export default async function ListingPage({ params: { id } }) {
         .findOne({ _id: ObjectId.createFromHexString(rawListing.posterId) });
     const posterName = rawUser.fullname;
 
-    // convert _id to string for the client
-    const listing = {
-        ...rawListing,
-        _id: rawListing._id.toString(),
-    };
-
-    console.log(listing);
-
     return (
         <div>
             <div className="flex flex-col space-y-6 p-4 lg:flex-row lg:space-y-0 lg:space-x-6">
                 <div className="w-full lg:w-1/2">
-                    <ImageGallery images={listing.images} />
+                    <ImageGallery images={listingForClient.images} />
                 </div>
                 <div className="w-full lg:w-1/2">
-                    <ListingDetails listing={listing} posterName={posterName} />
+                    <ListingDetails listing={listingForClient} posterName={posterName} />
                 </div>
             </div>
         </div>
