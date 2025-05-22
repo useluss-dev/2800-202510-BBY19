@@ -1,26 +1,20 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-<<<<<<< HEAD:app/listing/components/ListingDetails.jsx
-import Chat from '../../components/Chat';
 import { IoMdContacts } from 'react-icons/io';
-import { useSearchParams } from 'next/navigation';
+import Chat from "../../../components/Chat"
+import PropTypes from 'prop-types';
 
-function ListingDetails() {
+export default function ListingDetails({ listing, posterName }) {
     const [showChat, setShowChat] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     // const sellerId = 'seller123';
     const chatUserName = 'John Doe';
-    
-   const searchParams = useSearchParams();
-   const userId = searchParams.get('user') || 'user1'; // current user
-   const sellerId = searchParams.get('seller') || 'seller123'; 
 
-=======
-import PropTypes from 'prop-types';
+    // const searchParams = useSearchParams();
+    // const userId = searchParams.get('user') || 'user1'; // current user
+    // const sellerId = searchParams.get('seller') || 'seller123'; 
 
-export default function ListingDetails({ listing, posterName }) {
->>>>>>> dev:app/listing/[id]/components/ListingDetails.jsx
     return (
         <div>
             <div className="flex items-start space-y-3 space-x-3">
