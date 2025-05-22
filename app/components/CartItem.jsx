@@ -6,10 +6,11 @@ import Image from 'next/image';
 
 function CartItem({ item, quanAdd, quanMinus, remove }) {
     const itemTotalPrice = (item.price * item.quantity).toFixed(2);
+    const cardImage = item.images?.[0] || item.image;
     return (
         <div className="grid grid-cols-[2fr_1fr_1fr_auto] items-center justify-center gap-4 border-t border-gray-500 py-4 lg:mx-0 lg:w-full">
             <div className="flex min-w-0 items-center gap-4">
-                <Image src={item.image} alt={item.name} width={100} height={100} />
+                <Image src={cardImage} alt={item.name} width={100} height={100} />
                 <div>
                     <h3 className="pb-1 font-bold">{item.name}</h3>
                     <p className="text-sm">
