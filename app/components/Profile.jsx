@@ -1,12 +1,11 @@
 import { FaListUl, FaRegHeart } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import {  useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-const Profile = () => {
+function Profile() {
     const { data: session, status } = useSession();
-    let emailParameter;
     const [user, setUser] = useState(null);
 
     // Current input values
@@ -19,9 +18,15 @@ const Profile = () => {
     const router = useRouter();
 
     useEffect(() => {
+        // if they’re not logged in, kick them to /login
+        if (status === 'unauthenticated') {
+            router.push('/login');
+            return;
+        }
+
         async function loadProfile() {
             try {
-                emailParameter = session.user.email;
+                const emailParameter = session.user.email;
                 const currentPort = window.location.port || 3000;
                 const currentHost = window.location.hostname || 'localhost';
                 const currentProtocol = window.location.protocol || 'http:';
@@ -44,16 +49,8 @@ const Profile = () => {
                 console.error('Failed to load profile:', error);
             }
         }
-        if (status === 'authenticated') {
-            console.log('email:', session.user.email);
-            console.log('name: ', session.user.name);
-            console.log('id:   ', session.user.id);
-            loadProfile();
-        } else {
-            console.log('Not authenticated');
-            router.push('/login')
-        }
-    }, [emailParameter]);
+        loadProfile();
+    }, [status, session, router]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -144,6 +141,6 @@ const Profile = () => {
             </div>
         </div>
     );
-};
+}
 
 export default Profile;
