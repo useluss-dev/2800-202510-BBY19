@@ -16,6 +16,22 @@ export default function Chat({ userId, sellerId, chatUserName }) {
     console.log('roomId:', roomId);
 
     useEffect(() => {
+        async function loadChatHistory() {
+            try {
+                const res = await fetch(`/api/messages/${roomId}`);
+                const data = await res.json();
+                if (res.ok) {
+                    setMessages(data.messages);
+                } else {
+                    console.error('failed to load messages:', data.error);
+                }
+            } catch (error) {
+                console.error('error loading chat history:', error);
+            }
+        }
+
+        loadChatHistory();
+
         socket.on('connect', () => {
             console.log('Connected:', socket.id);
         });
