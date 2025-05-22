@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {  useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import WishItem from '../components/WishItem';
 
 export default function WishlistPage() {
@@ -34,9 +34,9 @@ export default function WishlistPage() {
             loadItems();
         } else {
             console.log('Not authenticated');
-            router.push('/login')
+            router.push('/login');
         }
-    }, []);
+    }, [router, session, status]);
 
     return (
         <div className="min-h-screen px-4 py-10 sm:px-6 lg:px-8">
