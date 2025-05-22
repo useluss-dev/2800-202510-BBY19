@@ -1,7 +1,7 @@
 import { FaListUl, FaRegHeart } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import {  useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 const Profile = () => {
@@ -53,11 +53,11 @@ const Profile = () => {
             console.log('Not authenticated');
             router.push('/login')
         }
-
     }, [emailParameter]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // Perform validation and send data to the backend
         const updatedUser = {
             fullname,
             email,
@@ -136,7 +136,7 @@ const Profile = () => {
                 <button className="flex items-center gap-1 border-t border-gray-800 py-8 text-sm font-semibold text-gray-500 hover:text-white">
                     <FaListUl /> Your listings
                 </button>
-                <Link href={`/wishlist?email=${email}`}>
+                <Link href={`/wishlist`}>
                     <button className="flex items-center gap-1 border-t border-gray-800 py-8 text-sm font-semibold text-gray-500 hover:text-white">
                         <FaRegHeart /> Wishlist
                     </button>
