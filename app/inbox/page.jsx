@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Chat from '../components/Chat';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function Inbox() {
     const { data: session, status } = useSession();
@@ -9,7 +10,6 @@ export default function Inbox() {
 
     const [chatRooms, setChatRooms] = useState([]);
     const [activeChat, setActiveChat] = useState(null);
-
 
     //check if user is logged in and fetch the chat rooms
     useEffect(() => {
@@ -31,11 +31,27 @@ export default function Inbox() {
     }, [currentUserId, status]);
 
     if (status === 'loading') {
-        return <div className="p-4 text-white">Loading session...</div>;
+        return (
+            <div className="flex min-h-[calc(100vh-92px-263px)] items-center justify-center p-4 ">
+                Loading session...
+            </div>
+        );
     }
 
     if (status === 'unauthenticated') {
-        return <div className="p-4 text-white">Please log in to view your messages.</div>;
+        return (
+            <div className="flex min-h-[calc(100vh-92px-263px)] flex-col items-center justify-center gap-4 p-4 ">
+                Please log in to view your messages.
+                <Link href="/login">
+                    <button
+                        type="submit"
+                        className="rounded-lg bg-[#F55266] px-3 py-2 text-lg font-semibold hover:bg-[#f55265c8]"
+                    >
+                        Log in
+                    </button>
+                </Link>
+            </div>
+        );
     }
 
     return (
@@ -48,7 +64,7 @@ export default function Inbox() {
                     chatRooms.map((room) => (
                         <div
                             key={room.roomId}
-                            className="cursor-pointer rounded bg-[#232933] p-2 hover:bg-[#F55266] hover:text-white my-2"
+                            className="my-2 cursor-pointer rounded bg-[#232933] p-2 hover:bg-[#F55266] hover:text-white"
                             onClick={() => setActiveChat(room)}
                         >
                             <div className="font-semibold">{room.participantName || 'User'}</div>
@@ -60,7 +76,7 @@ export default function Inbox() {
                 )}
             </div>
 
-            <div className="flex-1 mt-12">
+            <div className="mt-12 flex-1">
                 {activeChat ? (
                     <Chat
                         userId={currentUserId}
