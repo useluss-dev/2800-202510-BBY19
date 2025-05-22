@@ -31,7 +31,7 @@ export default function ListingDetails({ listing, posterName }) {
             <hr />
 
             {/* Title and price */}
-            <h1 className="py-6 text-5xl font-extrabold">Item Name</h1>
+            <h1 className="py-6 text-5xl font-extrabold">{listing.name}</h1>
             <div className="py-6">
                 <p className="text-4xl font-bold">${listing.price}</p>
                 <p className="text-md text-gray-500">or Best Offer</p>
