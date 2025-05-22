@@ -41,8 +41,6 @@ function SellerPage() {
                             <p className="text-sm text-white">
                                 <span className="font-bold text-white">99.3%</span> positive
                                 feedback
-                                <span> · </span>
-                                <span className="font-bold text-white">12</span> items sold
                             </p>
                         </div>
                     </div>
