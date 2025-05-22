@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 
-function ListingDetails({ listing, posterName }) {
+export default function ListingDetails({ listing, posterName }) {
     return (
         <div>
             {/* Seller info */}
@@ -63,4 +64,13 @@ function ListingDetails({ listing, posterName }) {
     );
 }
 
-export default ListingDetails;
+ListingDetails.propTypes = {
+    posterName: PropTypes.string.isRequired,
+    listing: PropTypes.shape({
+        name: PropTypes.string,
+        price: PropTypes.number,
+        condition: PropTypes.string,
+        reviews: PropTypes.number,
+        rating: PropTypes.string,
+    }).isRequired,
+};

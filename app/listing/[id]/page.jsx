@@ -3,6 +3,7 @@ import ImageGallery from './components/ImageGallery';
 import ListingDetails from './components/ListingDetails';
 import clientPromise from '@/app/lib/mongodb';
 import { ObjectId } from 'mongodb';
+import PropTypes from 'prop-types';
 
 export default async function ListingPage({ params: { id } }) {
     const client = await clientPromise;
@@ -42,3 +43,9 @@ export default async function ListingPage({ params: { id } }) {
         </div>
     );
 }
+
+ListingPage.propTypes = {
+    params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
+};

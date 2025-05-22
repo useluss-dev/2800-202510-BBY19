@@ -30,7 +30,7 @@ function CreateListing() {
         if (status === 'authenticated') {
             setForm((prev) => ({ ...prev, posterId: session.user.id }));
         }
-    }, [session, status]);
+    }, [session, status, router]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

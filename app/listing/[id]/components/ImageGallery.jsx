@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import PropTypes from 'prop-types';
 
-function ImageGallery({ images }) {
+export default function ImageGallery({ images }) {
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
     return (
@@ -30,4 +31,6 @@ function ImageGallery({ images }) {
     );
 }
 
-export default ImageGallery;
+ImageGallery.propTypes = {
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
