@@ -1,17 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
+
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import {  useSession } from 'next-auth/react';
 
 function WishItem({ image, name, price, rating, reviews, prod, images }) {
-    console.log('prod', prod);
     const ratingValue = (parseFloat(rating) / 100) * 5;
     const fullStars = Math.floor(ratingValue);
     const hasHalfStar = ratingValue - fullStars >= 0.5;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     const { addToCart } = useCart();
     const cardImage = images?.[0] || image;
+    const { data: session} = useSession();
+    const [visible, setVisible] = useState(true);
+    
+    const email = session.user.email;
 
     const normalizedProd = {
         ...prod,
@@ -20,8 +25,22 @@ function WishItem({ image, name, price, rating, reviews, prod, images }) {
         name: prod.name || prod.title,
     };
 
+    const remove = async() => {
+        let deleteParameter = { email: email, listingId: normalizedProd.id };
+
+        const res = await fetch('/api/wishlist', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(deleteParameter),
+        });
+        
+        const data = await res.json();
+        alert(data.message || data.error || 'No response message');
+        setVisible(false);
+    }
+    if (!visible) return null;
     return (
-        <section className="flex flex-col">
+        <section id="wishItem" className="flex flex-col">
             {/* Image Section */}
             <div className="relative w-full aspect-[4/3] overflow-hidden rounded-3xl">
                 <Image src={cardImage} alt="image" fill className="" />
@@ -50,7 +69,7 @@ function WishItem({ image, name, price, rating, reviews, prod, images }) {
             {/* Action Buttons */}
             <div className="flex gap-2">
                 {/* Remove Button */}
-                <button
+                <button onClick={() => remove()}
                     className="text-xl text-[#F55266] hover:cursor-pointer"
                     title="Remove"
                 >

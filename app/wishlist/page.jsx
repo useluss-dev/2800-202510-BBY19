@@ -1,11 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import {  useSession } from 'next-auth/react';
 import WishItem from '../components/WishItem';
 
 export default function WishlistPage() {
+    const { data: session, status } = useSession();
     const [items, setItems] = useState([]);
+    const router = useRouter();
 
-    // Fetch data on component mount
     useEffect(() => {
         async function loadItems() {
             try {
@@ -14,7 +17,7 @@ export default function WishlistPage() {
                 const currentProtocol = window.location.protocol || 'http';
                 const baseUrl = `${currentProtocol}//${currentHost}:${currentPort}`;
 
-                const response = await fetch(`${baseUrl}/api/wishlist`);
+                const response = await fetch(`${baseUrl}/api/wishlist?email=${session.user.email}`);
                 const data = await response.json();
                 data.forEach((item) => {
                     item.source = 'wishlist';
@@ -24,8 +27,15 @@ export default function WishlistPage() {
                 console.error('Failed to load wishlist:', error);
             }
         }
-
-        loadItems();
+        if (status === 'authenticated') {
+            console.log('email:', session.user.email);
+            console.log('name: ', session.user.name);
+            console.log('id:   ', session.user.id);
+            loadItems();
+        } else {
+            console.log('Not authenticated');
+            router.push('/login')
+        }
     }, []);
 
     return (

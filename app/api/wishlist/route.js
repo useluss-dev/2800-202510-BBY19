@@ -1,34 +1,104 @@
-import clientPromise from "../../lib/mongodb";  
+import clientPromise from "../../lib/mongodb";
+import { ObjectId } from 'mongodb';
 
-const mydata = {
-    _id: "123",
-    fullName: "John Doe",
-    password: "password123",
-    listings: ["19055063b6fc465f8ee6197e99d6dd37"],
-    buyerRating: null,
-    sellerRating: "97.3% -> This represents the percentage of positive ratings",
-    wishlist: ["681cfdba182e3c0222e6d4d9","681cfdba182e3c0222e6d4dc","681cfdba182e3c0222e6d4de","681cfdba182e3c0222e6d4e0","681cfdba182e3c0222e6d4e3"],
-    cart: [],
-    phoneNumber: 6049927760
-}
+export async function GET(request) {
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get('email');
 
-export async function GET() {
     try {
         const client = await clientPromise;
-        console.log(process.env.MONGODB_NAME);
         const db = client.db(process.env.MONGODB_NAME);
-        const listingsCollection = db.collection("listings");
+        const user = await db.collection('users').findOne({ email: email });
         
-        const wishlistListings = await listingsCollection.find({
-            _id: { $in: mydata.wishlist }
-        }).toArray();
-      return new Response(JSON.stringify(wishlistListings), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-    });
-    } catch {
+        if (user) {
+            const listingsCollection = db.collection("listings");
+            const wishlistObjectIds = user.wishlist.map(id => new ObjectId(id));
+            const wishlistListings = await listingsCollection.find({
+                _id: { $in: wishlistObjectIds}
+            }).toArray();
+            return new Response(JSON.stringify(wishlistListings), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        } else {
+            return new Response(JSON.stringify({ error: 'Failed to fetch wishlists' }), {
+            status: 500,
+        });    
+        }
+    } catch (error) {
+        console.log("Error", error);
         return new Response(JSON.stringify({ error: 'Failed to fetch wishlists' }), {
             status: 500,
         });
     }
+     
+}
+
+
+export async function DELETE(request) {
+    try {
+        const body = await request.json();
+        const { email, listingId } = body;
+        
+        const client = await clientPromise;
+        console.log(process.env.MONGODB_NAME);
+        const db = client.db(process.env.MONGODB_NAME);
+        const usersCollection = db.collection("users");
+        const user = await db.collection('users').findOne({ email: email });
+
+        if (user) {
+            await usersCollection.updateOne(
+              { _id: user._id }, // assuming you have user._id
+                { $pull: { wishlist: listingId } }
+            );
+            return new Response(JSON.stringify({ message: 'Wishlist item removed successfully' }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        } else {
+            console.log('In here 7');
+            return new Response(JSON.stringify({ error: 'Failed to remove from wishlist' }), {
+            status: 500,
+        });
+        }
+    } catch (error) {
+        console.log("Error", error);
+        return new Response(JSON.stringify({ error: 'Failed to remove from wishlist' }), {
+            status: 500,
+        });
+    }
+}
+
+
+export async function POST(request) {
+    try {
+        const body = await request.json();
+        console.log(body);
+        const { email, listingId } = body;
+
+        const client = await clientPromise;
+        console.log(process.env.MONGODB_NAME);
+        const db = client.db(process.env.MONGODB_NAME);
+        const usersCollection = db.collection("users");
+        console.log(email);
+
+        const user = await db.collection('users').findOne({ email: email });
+        console.log(user);
+        
+        if (user) {
+            await usersCollection.updateOne(
+              { _id: user._id }, // assuming you have user._id
+                { $addToSet: { wishlist: listingId } }
+            );
+        }
+      return new Response(JSON.stringify({ message: 'Inserted wishlist successfully' }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+    });
+    } catch {
+        return new Response(JSON.stringify({ error: 'Failed to insert wishlists' }), {
+            status: 500,
+        });
+    }     
+
 }

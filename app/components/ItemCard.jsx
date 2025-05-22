@@ -1,8 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
-import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
+import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart, FaHeart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import {  useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 function ItemCard({ image, name, price, rating, reviews, prod, images }) {
@@ -12,6 +13,7 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     const { addToCart } = useCart();
     const cardImage = images?.[0] || image;
+    const { data: session, status} = useSession();
 
     const normalizedProd = {
         ...prod,
@@ -19,7 +21,22 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
         image: cardImage,
         name: prod.name,
     };
-
+    const addtoWishList = async() => {
+        if (status === 'authenticated') {
+            let addParameter = { email: session.user.email, listingId: normalizedProd.id };
+            const res = await fetch('/api/wishlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(addParameter),
+            });
+            const data = await res.json();
+            alert(data.message || data.error || 'No response message');
+        } else {
+            alert('Please login to add listing to wishlist');
+        }
+        
+        
+    }
     return (
         <Link href={`/listing/${normalizedProd.id}`} className="group flex flex-col">
             <div className="relative h-64 w-full overflow-hidden rounded-3xl">
@@ -41,6 +58,12 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
             <div className="flex items-center justify-between px-2">
                 <p className="font-bold">${price}</p>
                 <div className="">
+                    <button onClick={() => addtoWishList()}
+                        className="text-xl text-[#F55266] hover:cursor-pointer"
+                        title="Add to Wishlist"
+                    >
+                        <FaHeart />
+                    </button>
                     <button
                         className="rounded border border-[#232933] bg-[#232933] p-1.5"
                         onClick={(e) => {
