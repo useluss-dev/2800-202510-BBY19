@@ -16,13 +16,17 @@ export default async function ListingPage({ params: { id } }) {
     const listingForClient = {
         id: rawListing._id.toString(),
         name: rawListing.name,
-        description: rawListing.description,
+        category: rawListing.category,
         price: rawListing.price,
+        brand: rawListing.brand,
+        stock: rawListing.stock,
         condition: rawListing.condition,
-        reviews: rawListing.reviews,
-        rating: rawListing.rating,
-        posterId: rawListing.posterId.toString(),
+        description: rawListing.description,
         images: rawListing.images,
+        posterId: rawListing.posterId.toString(),
+        timestamp: rawListing.timestamp,
+        rating: rawListing.rating,
+        reviews: rawListing.reviews,
     };
 
     if (!rawListing) {
