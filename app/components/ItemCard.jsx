@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart, FaHeart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import {  useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 function ItemCard({ image, name, price, rating, reviews, prod, images }) {
     const ratingValue = (parseFloat(rating) / 100) * 5;
@@ -16,9 +17,9 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
 
     const normalizedProd = {
         ...prod,
-        id: prod.id || prod._id,
+        id: prod._id,
         image: cardImage,
-        name: prod.name || prod.title,
+        name: prod.name,
     };
     const addtoWishList = async() => {
         if (status === 'authenticated') {
@@ -37,7 +38,7 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
         
     }
     return (
-        <section className="flex flex-col">
+        <Link href={`/listing/${normalizedProd.id}`} className="group flex flex-col">
             <div className="relative h-64 w-full overflow-hidden rounded-3xl">
                 <Image src={cardImage} alt="image" fill className="" />
             </div>
@@ -65,7 +66,8 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
                     </button>
                     <button
                         className="rounded border border-[#232933] bg-[#232933] p-1.5"
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.preventDefault(); // Prevent Link navigation when clicked
                             addToCart(normalizedProd);
                         }}
                     >
@@ -73,7 +75,7 @@ function ItemCard({ image, name, price, rating, reviews, prod, images }) {
                     </button>
                 </div>
             </div>
-        </section>
+        </Link>
     );
 }
 
