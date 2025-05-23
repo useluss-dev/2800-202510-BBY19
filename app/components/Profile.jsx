@@ -1,143 +1,158 @@
-import { FaListUl, FaRegHeart } from 'react-icons/fa';
+'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import ItemCard from './ItemCard';
 
 function Profile() {
     const { data: session, status } = useSession();
-    const [user, setUser] = useState(null);
+    const router = useRouter();
 
-    // Current input values
+    const [user, setUser] = useState(null);
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [phonenumber, setPhonenumber] = useState('');
-    const [hasSaved, setHasSaved] = useState(false);
-
     const [original, setOriginal] = useState({ fullname: '', email: '', phonenumber: '' });
-    const router = useRouter();
+    const [hasSaved, setHasSaved] = useState(false);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        // if they’re not logged in, kick them to /login
         if (status === 'unauthenticated') {
             router.push('/login');
             return;
         }
+        if (status !== 'authenticated') return;
 
         async function loadProfile() {
             try {
-                const emailParameter = session.user.email;
-                const currentPort = window.location.port || 3000;
-                const currentHost = window.location.hostname || 'localhost';
-                const currentProtocol = window.location.protocol || 'http:';
-                const baseUrl = `${currentProtocol}//${currentHost}:${currentPort}`;
-
-                const response = await fetch(`${baseUrl}/api/user?email=${emailParameter}`);
-                const data = await response.json();
-
+                const res = await fetch(
+                    `/api/user?email=${encodeURIComponent(session.user.email)}`,
+                );
+                const data = await res.json();
                 setUser(data);
                 setFullname(data.fullname || '');
                 setEmail(data.email || '');
                 setPhonenumber(data.phonenumber || '');
-
                 setOriginal({
                     fullname: data.fullname || '',
                     email: data.email || '',
                     phonenumber: data.phonenumber || '',
                 });
-            } catch (error) {
-                console.error('Failed to load profile:', error);
+            } catch (err) {
+                console.error('Failed to load profile:', err);
             }
         }
         loadProfile();
     }, [status, session, router]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // Perform validation and send data to the backend
-        const updatedUser = {
-            fullname,
-            email,
-            phonenumber,
-        };
-        console.log(updatedUser);
-        const res = await fetch('/api/profile', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedUser),
-        });
-        const data = await res.json();
-        alert(data.message || data.error || 'No response message');
-        setHasSaved(true);
-    };
+    useEffect(() => {
+        if (status !== 'authenticated') return;
 
-    // Determine if inputs have changed
+        async function loadListings() {
+            try {
+                const res = await fetch('/api/listings');
+                const all = await res.json();
+                setProducts(all.filter((l) => l.posterId === session.user.id));
+            } catch (err) {
+                console.error('Failed to load listings:', err);
+            }
+        }
+        loadListings();
+    }, [status, session]);
+
     const isChanged =
         fullname !== original.fullname ||
         email !== original.email ||
         phonenumber !== original.phonenumber;
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const res = await fetch('/api/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullname, email, phonenumber }),
+        });
+        const result = await res.json();
+        alert(result.message || result.error || 'No response message');
+        setHasSaved(true);
+    };
 
     if (!user) {
         return <div className="mt-10 text-center text-gray-400">Loading profile...</div>;
     }
 
     return (
-        <div className="mx-5 max-w-6xl p-10 xl:mx-auto">
-            <div className="grid grid-cols-4 gap-4">
-                <div className="avatar">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-200 text-lg font-bold text-white">
-                        {fullname.charAt(0)}
-                    </div>
+        <div className="w-full p-6 md:p-10">
+            {/* Header */}
+            <div className="flex items-center gap-6 px-2 md:px-0">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F55266] text-3xl font-bold text-white">
+                    {fullname.charAt(0)}
                 </div>
-                <div className="col-span-3">
-                    <p className="mr-2 text-2xl text-gray-400">Account Details:</p>
-
-                    <div className="flex flex-col pt-3">
-                        <form
-                            onSubmit={handleSubmit}
-                            className="flex flex-col space-y-4 lg:space-y-3"
-                        >
-                            <input
-                                type="text"
-                                className="mr-2 text-lg font-semibold text-gray-700"
-                                value={fullname}
-                                onChange={(e) => setFullname(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                className="mr-2 text-lg font-semibold text-gray-700"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                className="mr-2 text-lg font-semibold text-gray-700"
-                                value={phonenumber}
-                                onChange={(e) => setPhonenumber(e.target.value)}
-                            />
-                            {isChanged && !hasSaved && (
-                                <button
-                                    type="submit"
-                                    className="mt-4 w-fit rounded bg-[#F55266] px-4 py-2 text-white hover:bg-[#d64456]"
-                                >
-                                    Save Changes
-                                </button>
-                            )}
-                        </form>
-                    </div>
+                <div>
+                    <h1 className="text-2xl font-semibold text-[#F55266]">{fullname}</h1>
+                    <p className="mt-1 text-gray-600">Manage your account details</p>
                 </div>
             </div>
 
-            <hr className="border-grey-500 mt-6" />
-            <div className="mt-[1.5px] flex justify-center gap-20">
-                <button className="flex items-center gap-1 border-t border-gray-800 py-8 text-sm font-semibold text-gray-500 hover:text-white">
-                    <FaListUl /> Your listings
-                </button>
-                <Link href={`/wishlist`}>
-                    <button className="flex items-center gap-1 border-t border-gray-800 py-8 text-sm font-semibold text-gray-500 hover:text-white">
-                        <FaRegHeart /> Wishlist
-                    </button>
-                </Link>
+            <hr className="my-6 border-gray-300" />
+
+            {/* Account Form */}
+            <form
+                onSubmit={handleSubmit}
+                className="grid grid-cols-1 gap-6 px-2 md:grid-cols-2 md:px-0"
+            >
+                <div>
+                    <label className="mb-1 block text-sm font-medium text-[#F55266]">
+                        Full Name
+                    </label>
+                    <input
+                        type="text"
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                        value={fullname}
+                        onChange={(e) => setFullname(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label className="0 mb-1 block text-sm font-medium text-[#F55266]">
+                        Email Address
+                    </label>
+                    <input
+                        type="email"
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label className="mb-1 block text-sm font-medium text-[#F55266]">
+                        Phone Number
+                    </label>
+                    <input
+                        type="tel"
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                        value={phonenumber}
+                        onChange={(e) => setPhonenumber(e.target.value)}
+                    />
+                </div>
+                <div className="flex justify-end px-2 md:col-span-2 md:px-0">
+                    {isChanged && !hasSaved && (
+                        <button
+                            type="submit"
+                            className="rounded-full bg-[#F55266] px-6 py-2 font-semibold text-white transition hover:bg-[#d64456]"
+                        >
+                            Save Changes
+                        </button>
+                    )}
+                </div>
+            </form>
+
+            <hr className="my-6 border-gray-300" />
+
+            {/* Product Grid */}
+            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {products.map((item) => (
+                    <ItemCard key={item.id || item._id} {...item} prod={item} />
+                ))}
             </div>
         </div>
     );
