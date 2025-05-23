@@ -67,6 +67,14 @@ function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+      
+        // Perform validation and send data to the backend
+        const updatedUser = {
+            fullname,
+            email,
+            phonenumber,
+        };
+      
         const res = await fetch('/api/profile', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
