@@ -82,7 +82,7 @@ function Profile() {
     }
 
     return (
-        <div className="w-full p-6 md:p-10">
+        <div className="w-full p-6 md:p-10 lg:mx-auto lg:max-w-7xl">
             {/* Header */}
             <div className="flex items-center gap-6 px-2 md:px-0">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F55266] text-3xl font-bold text-white">
