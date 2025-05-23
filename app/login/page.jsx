@@ -4,7 +4,6 @@ import Image from 'next/image';
 import loginImage from '../assets/images/login.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
-import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 

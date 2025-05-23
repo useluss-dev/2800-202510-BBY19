@@ -4,7 +4,6 @@ import Image from 'next/image';
 import singupImage from '../assets/images/signup.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
-import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 
 function SignUp() {
