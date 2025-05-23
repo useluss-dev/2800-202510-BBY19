@@ -7,11 +7,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 
-function ItemCard({ image, name, price, rating, reviews, prod, images }) {
-    const ratingValue = (parseFloat(rating) / 100) * 5;
-    const fullStars = Math.floor(ratingValue);
-    const hasHalfStar = ratingValue - fullStars >= 0.5;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+function ItemCard({ image, name, price, prod, images }) {
     const { addToCart } = useCart();
     const cardImage = images?.[0] || image;
     const { data: session, status } = useSession();
