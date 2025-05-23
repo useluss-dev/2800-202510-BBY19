@@ -5,7 +5,8 @@ import clientPromise from '@/app/lib/mongodb';
 import { ObjectId } from 'mongodb';
 import PropTypes from 'prop-types';
 
-export default async function ListingPage({ params: { id } }) {
+export default async function ListingPage({ params }) {
+    const { id } = await params;
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_NAME);
 

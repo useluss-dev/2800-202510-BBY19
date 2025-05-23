@@ -80,34 +80,6 @@ function Login() {
                             >
                                 Log in
                             </button>
-                            <div className="flex items-center justify-center">
-                                <hr className="flex-grow text-gray-300" />
-                                <p className="px-3">or continue with</p>
-                                <hr className="flex-grow text-gray-300" />
-                            </div>
-                            <div className="flex justify-center gap-x-4">
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaFacebookF />
-                                    Facebook
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaGoogle />
-                                    Google
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaApple />
-                                    Apple
-                                </button>
-                            </div>
                         </form>
                     </div>
                 </div>
