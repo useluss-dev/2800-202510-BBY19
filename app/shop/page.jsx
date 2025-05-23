@@ -102,13 +102,7 @@ function Page() {
 
         if (filters.searchTerm) {
             const q = filters.searchTerm.toLowerCase();
-            console.log('here');
             result = result.filter((item) => item.name.toLowerCase().includes(q));
-            // result = result.filter(
-            //     (item) =>
-            //         item.name.toLowerCase().includes(q) ||
-            //         (item.description || '').toLowerCase().includes(q),
-            // );
         }
 
         //sort listings based on rating or price

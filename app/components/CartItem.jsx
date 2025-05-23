@@ -53,7 +53,8 @@ export default CartItem;
 CartItem.propTypes = {
     item: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        images: PropTypes.arrayOf(PropTypes.string).isRequired,
+        image: PropTypes.string.isRequired,
+        images: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
         brand: PropTypes.string.isRequired,

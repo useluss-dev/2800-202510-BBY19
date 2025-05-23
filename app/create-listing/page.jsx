@@ -253,6 +253,7 @@ function CreateListing() {
                                             width={128}
                                             height={128}
                                             className="h-32 w-full object-contain"
+                                            loading='lazy'
                                         />
                                     </div>
                                 ))}

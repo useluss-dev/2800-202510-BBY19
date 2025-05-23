@@ -25,7 +25,6 @@ function SignUp() {
             password: formData.password,
             phonenumber: formData.phonenumber,
         };
-        console.log(user);
         const res = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

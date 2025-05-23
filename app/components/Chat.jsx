@@ -12,10 +12,6 @@ export default function Chat({ userId, sellerId, chatUserName }) {
     const participants = [userId, sellerId].sort();
     const roomId = `chat_${participants.join('_')}`;
 
-    console.log('userId:', userId);
-    console.log('sellerId:', sellerId);
-    console.log('roomId:', roomId);
-
     useEffect(() => {
         async function loadChatHistory() {
             try {
@@ -41,8 +37,6 @@ export default function Chat({ userId, sellerId, chatUserName }) {
             console.log('Disconnected');
         });
 
-        console.log(roomId);
-
         if (!socket.connected) {
             socket.on('connect', () => {
                 console.log('Connected to socket');
@@ -54,7 +48,6 @@ export default function Chat({ userId, sellerId, chatUserName }) {
 
         socket.on('receiveMessage', (message) => {
             if (message.senderId !== userId) {
-                console.log('received from other user:', message);
                 setMessages((prev) => [...prev, message]);
             }
         });
@@ -77,7 +70,6 @@ export default function Chat({ userId, sellerId, chatUserName }) {
         setMessages((prev) => [...prev, newMessage]);
 
         socket.emit('sendMessage', { roomId, message: newMessage });
-        console.log('sent:', newMessage);
         setInput('');
     };
 

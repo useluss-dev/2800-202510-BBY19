@@ -60,7 +60,6 @@ function Profile() {
             email,
             phonenumber,
         };
-        console.log(updatedUser);
         const res = await fetch('/api/profile', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
