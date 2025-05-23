@@ -149,10 +149,15 @@ function Profile() {
             <hr className="my-6 border-gray-300" />
 
             {/* Product Grid */}
-            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {products.map((item) => (
-                    <ItemCard key={item.id || item._id} {...item} prod={item} />
-                ))}
+            <h2 className="pl-2 text-2xl font-bold">Your listings</h2>
+            <div className="grid-col-1 mt-6 grid gap-6 pl-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {products.length > 0 ? (
+                    products.map((item) => (
+                        <ItemCard key={item.id || item._id} {...item} prod={item} />
+                    ))
+                ) : (
+                    <p className="text-gray-300">No listings found.</p>
+                )}
             </div>
         </div>
     );
