@@ -18,10 +18,6 @@ function Login() {
     // Redirect as soon as we're authenticated
     useEffect(() => {
         if (status === 'authenticated') {
-            console.log('Logged in with:');
-            console.log('email:', session.user.email);
-            console.log('name: ', session.user.name);
-            console.log('id:   ', session.user.id);
             router.push('/profile');
         }
     }, [status, session, router]);

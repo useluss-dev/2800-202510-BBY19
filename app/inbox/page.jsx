@@ -20,7 +20,6 @@ export default function Inbox() {
                 const res = await fetch(`/api/messages/user/${currentUserId}`);
                 const data = await res.json();
 
-                console.log('Fetched chatRooms:', data.rooms);
                 setChatRooms(data.rooms || []);
             } catch (err) {
                 console.error('Failed to fetch chat rooms:', err);

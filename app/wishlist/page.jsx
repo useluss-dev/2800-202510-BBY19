@@ -28,9 +28,6 @@ export default function WishlistPage() {
             }
         }
         if (status === 'authenticated') {
-            console.log('email:', session.user.email);
-            console.log('name: ', session.user.name);
-            console.log('id:   ', session.user.id);
             loadItems();
         } else {
             console.log('Not authenticated');
