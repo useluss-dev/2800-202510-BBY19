@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
         //creating a map to store messages by roomId
         const roomMap = new Map();
-        
+
         //loop through the all messages and get the last message for each room
         //if the roomId is not in the map, add it
         for (const msg of messages) {
@@ -27,6 +27,12 @@ export default async function handler(req, res) {
                 const participants = msg.roomId.replace('chat_', '').split('_');
                 //find the id of the other participant
                 const partnerId = participants.find((id) => id !== userId);
+
+                //prevent invalid ObjectId crash
+                if (!partnerId || !ObjectId.isValid(partnerId)) {
+                    console.warn('skipping invalid partnerId:', partnerId);
+                    continue;
+                }
 
                 //fetch the participant document from db
                 const userDoc = await db
