@@ -40,16 +40,8 @@ export default function ListingDetails({ listing, posterName }) {
                     {posterName.charAt(0)}
                 </div>
                 <div>
-                    <div className="font-semibold">
-                        {posterName}
-                        <span className="text-gray-500"> ({listing.reviews || 0})</span>
-                    </div>
+                    <div className="font-semibold">{posterName}</div>
                     <div className="space-x-2 text-sm text-white">
-                        <Link href="#" className="underline hover:text-[#F55266]">
-                            {listing.rating}
-                            <span className="font-bold">%</span> of positive ratings
-                        </Link>
-                        <span>·</span>
                         <Link
                             href={`/seller/${posterId}`}
                             className="underline hover:text-[#F55266]"

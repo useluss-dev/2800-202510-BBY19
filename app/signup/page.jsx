@@ -4,7 +4,6 @@ import Image from 'next/image';
 import singupImage from '../assets/images/signup.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
-import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 
 function SignUp() {
@@ -16,7 +15,7 @@ function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const formData = { fullname, email, password, phonenumber };
         // Perform validation and send data to the backend
         const user = {
@@ -33,7 +32,7 @@ function SignUp() {
 
         const data = await res.json();
         alert(data.message || data.error || 'No response message');
-        router.push("/");
+        router.push('/');
     };
 
     return (
@@ -97,34 +96,6 @@ function SignUp() {
                             >
                                 Create an account
                             </button>
-                            <div className="flex items-center justify-center">
-                                <hr className="flex-grow text-gray-300" />
-                                <p className="px-3">or continue with</p>
-                                <hr className="flex-grow text-gray-300" />
-                            </div>
-                            <div className="flex justify-center gap-x-4">
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaFacebookF />
-                                    Facebook
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaGoogle />
-                                    Google
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaApple />
-                                    Apple
-                                </button>
-                            </div>
                         </form>
                     </div>
                 </div>

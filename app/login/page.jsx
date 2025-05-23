@@ -4,7 +4,6 @@ import Image from 'next/image';
 import loginImage from '../assets/images/login.svg';
 import logo from '../assets/images/ReCompute.png';
 import Link from 'next/link';
-import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 
@@ -80,34 +79,6 @@ function Login() {
                             >
                                 Log in
                             </button>
-                            <div className="flex items-center justify-center">
-                                <hr className="flex-grow text-gray-300" />
-                                <p className="px-3">or continue with</p>
-                                <hr className="flex-grow text-gray-300" />
-                            </div>
-                            <div className="flex justify-center gap-x-4">
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaFacebookF />
-                                    Facebook
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaGoogle />
-                                    Google
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex items-center gap-x-2 rounded-md border border-gray-300 px-4 py-2"
-                                >
-                                    <FaApple />
-                                    Apple
-                                </button>
-                            </div>
                         </form>
                     </div>
                 </div>
